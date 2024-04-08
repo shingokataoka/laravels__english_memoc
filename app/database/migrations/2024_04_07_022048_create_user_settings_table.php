@@ -17,8 +17,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('default_voice_name');
-            $table->boolean('is_english_first_position')->defalut(true);
-            $table->boolean('is_show_all_answers');
+            $table->boolean('is_english_first_position')->default(true);
+            $table->boolean('is_show_all_answers')->default(false);
             $table->double('default_speaking_speed', 4, 2)->default(1);
             $table->double('slow_speaking_speed', 4, 2)->default(0.75);
             $table->boolean('is_dark')->default(false);

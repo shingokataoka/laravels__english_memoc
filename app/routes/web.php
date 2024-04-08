@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\http\Controllers\User\MainPageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +25,16 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+
+Route::middleware('auth')->group(function() {
+
+    Route::get('/top', [MainPageController::class, 'index'])
+        ->name('main.top');
+
+});
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
