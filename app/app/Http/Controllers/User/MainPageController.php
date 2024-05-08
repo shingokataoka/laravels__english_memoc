@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\BookOrWord;
 use Inertia\Inertia;
 
 class MainPageController extends Controller
@@ -14,7 +15,12 @@ class MainPageController extends Controller
      */
     public function index()
     {
-        return Inertia::render('User/TopPage');
+        $user = auth()->user();
+        $bookOrWords = $user->bookOrWords;
+
+        return Inertia::render('User/TopPage')->with([
+            'bookOrWords' => $bookOrWords,
+        ]);
     }
 
     /**
@@ -22,7 +28,7 @@ class MainPageController extends Controller
      */
     public function create()
     {
-        //
+        dd(__FUNCTION__);
     }
 
     /**
@@ -30,15 +36,24 @@ class MainPageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd(__FUNCTION__);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $book_id)
     {
-        //
+        $book = BookOrWord::find($book_id);
+        $bookOrWords = $book->bookOrWords;
+        $booksOfBreadCrumb = $book->booksOfBreadCrumb();
+
+        // パンくずリスト用の本or言葉 一覧。
+        return Inertia::render('User/BookPage')->with([
+            'book' => $book,
+            'bookOrWords' => $bookOrWords,
+            'booksOfBreadCrumb' => $booksOfBreadCrumb,
+        ]);
     }
 
     /**
@@ -46,7 +61,7 @@ class MainPageController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        dd(__FUNCTION__);
     }
 
     /**
@@ -54,7 +69,7 @@ class MainPageController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd(__FUNCTION__);
     }
 
     /**
@@ -62,6 +77,6 @@ class MainPageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd(__FUNCTION__);
     }
 }

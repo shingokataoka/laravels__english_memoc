@@ -26,5 +26,16 @@ class UserSeeder extends Seeder
                 'updated_at' => $datetimeNowString,
             ],
         ]);
+
+        $insertRow = [];
+        for ($i=2; $i<=9; $i++) {
+            $insertRow[] = [
+                'name' => "user{$i}",
+                'email' => "user{$i}@test.com",
+                'password' => Hash::make("user{$i}"),
+                'created_at' => $datetimeNowString,
+            ];
+        }
+        DB::table('users')->insert($insertRow);
     }
 }

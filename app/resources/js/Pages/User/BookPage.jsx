@@ -1,9 +1,9 @@
-import {usePage} from '@inertiajs/react'
+import { usePage } from "@inertiajs/react"
 import { useState } from "react"
 
 import  { DefaultThemeProvider }  from "@/Components/DefaultThemeProvider"
 
-import TopPageHeader from '@/Components/MainPageComponents/TopPageHeader'
+import BookPageHeader from '@/Components/MainPageComponents/BookPageHeader'
 import BookPageMain from '@/Components/MainPageComponents/BookPageMain'
 
 
@@ -11,9 +11,8 @@ import BookPageMain from '@/Components/MainPageComponents/BookPageMain'
 
 
 /** @jsxImportSource @emotion/react */
-export default function TopPage({auth, bookOrWords}){
+export default function BookPage({auth, book, bookOrWords, booksOfBreadCrumb}){
     const userSetting = usePage().props.user_setting
-
     const [isEnglishFirstPosition, setIsEnglishFirstPosition] = useState(
         userSetting.is_english_first_position
     )
@@ -26,18 +25,21 @@ export default function TopPage({auth, bookOrWords}){
 
 
 
+
     return (<DefaultThemeProvider>
 
-        <TopPageHeader
+        <BookPageHeader
+            book={ book }
+            bookOrWords={ bookOrWords }
+            booksOfBreadCrumb={ booksOfBreadCrumb }
             isEnglishFirstPosition={ isEnglishFirstPosition }
             setIsEnglishFirstPosition={ setIsEnglishFirstPosition }
             isShowAllAnswer={ isShowAllAnswer }
             setIsShowAllAnswer={ setIsShowAllAnswer }
         />
 
-
         <BookPageMain
-            currentBookId={1}
+            currentBookId={book.id}
             bookOrWords={bookOrWords}
             isEnglishFirstPosition={isEnglishFirstPosition}
             isShowAllAnswer={isShowAllAnswer}
