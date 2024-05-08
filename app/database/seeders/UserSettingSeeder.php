@@ -18,7 +18,7 @@ class UserSettingSeeder extends Seeder
             [
                 'user_id' => 1,
                 'default_voice_name' => 'Google Us English',
-                'is_dark' => false,
+                'is_dark' => true,
             ],
         ]);
     }

@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('book_or_words', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->foreignId('book_id')->constrained('book_or_words')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->integer('sort_order_number');
             $table->boolean('type_is_book');
-            $table->string('voice_name');
+            $table->string('voice_name')->nullable();
             $table->text('english_word');
             $table->text('japanese_word');
             $table->datetime('created_at')->nullable();
             $table->datetime('updated_at')->nullable();
-            $table->datetime('deleted_at')->nullable();
         });
     }
 

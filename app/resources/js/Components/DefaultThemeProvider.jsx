@@ -1,10 +1,12 @@
 import { usePage } from '@inertiajs/react'
 
+import {css} from '@emotion/react'
+
 import CssBaseline from '@mui/material/CssBaseline'
 import * as colors from '@mui/material/colors'
 import {createTheme} from '@mui/material'
 import {ThemeProvider} from '@emotion/react'
-
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ブレークポイントを設定
 const breakpointsObj = {
@@ -55,8 +57,15 @@ const darkTheme = {
 
 
 export function isDark() {
-    const isDark = usePage().props.user_setting.is_dark
-    return isDark
+    // ダークモード=true、普通モード=false を取得
+    // useMediaQuery()は、コンポーネントまたはカスタムフック内のトップレベルに書くこと
+    // ログイン済みなら、ユーザー設定のis_darkを返す。
+    if( usePage().props.auth.user ) {
+        const isDark = usePage().props.user_setting.is_dark
+        return isDark
+    }
+    // 未ログインなら、スマホやPCの設定がダークモードならtrueを返す。
+    return useMediaQuery('(prefers-color-scheme: dark)');
 }
 
 
@@ -73,13 +82,17 @@ export function defaultTheme() {
 
 
 
-
+/** @jsxImportSource @emotion/react */
 export function DefaultThemeProvider(props) {
     const theme = defaultTheme()
-    return (<>
+    return (<div css={css`
+        transition: all 0.25s;
+        background: ${theme.palette.background.default};
+        min-height: 100vh;
+    `}>
     <ThemeProvider theme={theme}>
         <CssBaseline />
         { props.children }
     </ThemeProvider>
-    </>)
+    </div>)
 }

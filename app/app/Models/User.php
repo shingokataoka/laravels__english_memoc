@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\BookOrWord;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -49,5 +51,14 @@ class User extends Authenticatable
     public function user_setting()
     {
         return $this->hasOne(UserSetting::class);
+    }
+
+    // userの所有するトップページの本と言葉を取得。
+    public function bookOrWords()
+    {
+        return $this->hasMany(BookOrWord::class)
+            ->where('id', '<>', 1)
+            ->where('book_id', '1')
+            ->orderBy('sort_order_number');
     }
 }

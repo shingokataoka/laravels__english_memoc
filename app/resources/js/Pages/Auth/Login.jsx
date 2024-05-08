@@ -7,7 +7,13 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
+import { defaultTheme } from '@/Components/DefaultThemeProvider';
+import { css } from '@emotion/react';
+
+/** @jsxImportSource @emotion/react */
 export default function Login({ status, canResetPassword }) {
+    const palette = defaultTheme().palette
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -30,7 +36,7 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="ログイン" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && <div className="mb-4 font-medium text-sm text-green-600 dark:text-green-400">{status}</div>}
 
             <form onSubmit={submit}>
                 <div>
@@ -73,7 +79,7 @@ export default function Login({ status, canResetPassword }) {
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ms-2 text-sm text-gray-600">ログイン状態を保持する</span>
+                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-100">ログイン状態を保持する</span>
                     </label>
                 </div>
 
@@ -81,13 +87,13 @@ export default function Login({ status, canResetPassword }) {
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 link"
                         >
                             パスワードをお忘れですか？
                         </Link>
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton className="ms-4 submit_button" disabled={processing}>
                         ログイン
                     </PrimaryButton>
                 </div>
