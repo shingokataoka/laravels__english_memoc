@@ -43,12 +43,29 @@ export default function DefaultSpeakingIconButton({
         speechSynthesis.cancel() /* 前回の再生途中なら完全に止める。 */
 
         const uttr = new SpeechSynthesisUtterance()
-        uttr.text = englishWord
-        if (voice !== null){
-            uttr.voice = voice
+
+        // 英語セリフが空文字の再生テキスト・速度・言語をセット。
+        if (!englishWord) {
+            uttr.text = '英語のセリフがありません。'
+            uttr.rate = 1.5
+            uttr.lang = 'ja-JP'
+        // 英語セリフに英語を含まない場合の再生テキスト・速度・言語をセット。
+        } else if ( /[a-zA-Z0-9.]/.test(englishWord) === false ) {
+            uttr.text = '英語のセリフに英語が含まれていません。'
+            uttr.rate = 1.5
+            uttr.lang = 'ja-JP'
+        // 正常なら、英語セリフ・言語・あるならvoiceをセット。
+        } else {
+            uttr.text = englishWord
+            if (voice !== null){
+                uttr.voice = voice
+            }
+            uttr.pitch =(voicePitch === null)? 1 : voicePitch
+            uttr.rate = 1
+            uttr.lang = 'en-US'
         }
-        uttr.pitch =(voicePitch === null)? 1 : voicePitch
-        uttr.lang = 'en-US'
+
+        // 再生を実行。
         speechSynthesis.speak(uttr)
     }
 

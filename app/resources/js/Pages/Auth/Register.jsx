@@ -6,6 +6,12 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
+import { css } from '@emotion/react'
+
+
+
+
+/** @jsxImportSource @emotion/react */
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
@@ -29,6 +35,12 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="登録" />
+
+            <div css={css`
+                padding: 12px 0;
+                font-weight: bold;
+                opacity: 0.91;
+            `}>新規ユーザー作成画面</div>
 
             <form onSubmit={submit}>
                 <div>

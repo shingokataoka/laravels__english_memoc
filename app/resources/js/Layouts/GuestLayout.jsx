@@ -11,6 +11,7 @@ export default function Guest({ children }) {
     return (<DefaultThemeProvider>
         <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0"
             css={css`
+                padding: 32px 0;
                 background: ${ palette.bgBack };
                 * {
                     color: ${palette.text.primary};

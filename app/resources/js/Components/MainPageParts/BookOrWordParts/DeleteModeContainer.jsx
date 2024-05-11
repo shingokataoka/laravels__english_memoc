@@ -30,7 +30,7 @@ export default function DeleteModeContainer({index, bookOrWords, bookOrWord, boo
         // ボタン無効。
         buttonDomRef.current.disabled = true
         // 高さ0へのアニメーションをセット。
-        const animateMSec = 1300
+        const animateMSec = 200
         const oldHeight = bookOrWordDom.getBoundingClientRect().height
         bookOrWordDom.animate([
             {height:`${oldHeight}px` },

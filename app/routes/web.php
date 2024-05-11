@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use App\http\Controllers\User\MainPageController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
 use App\Http\Controllers\Api\ApiUserSettingController;
-use App\Http\Controllers\User\UserSettingController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,12 +21,9 @@ use App\Http\Controllers\User\UserSettingController;
 */
 
 
-Route::get('/test', function () {
-    return Inertia::render('Test');
-});
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Index', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -60,8 +57,6 @@ Route::middleware('auth')->group(function() {
         Route::resource('api/user_setting', ApiUserSettingController::class);
     });
 
-    // user_setting系のリソースコントローラ。
-    Route::resource('user_setting', UserSettingController::class);
 });
 
 

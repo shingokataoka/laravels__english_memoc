@@ -30,9 +30,12 @@ class BookOrWord extends Model
         $booksOfBreadCrumb = [$book];
         for ( $i=0; $i<20; $i++ ) {
             $parentBook = $booksOfBreadCrumb[$i]->book;
-            $booksOfBreadCrumb[] = $parentBook;
+            if (!$parentBook) break;
             if ( $parentBook->id === 1 ) break;
+            $booksOfBreadCrumb[] = $parentBook;
         }
+        $booksOfBreadCrumb[] = BookOrWord::find(1);
+
         $booksOfBreadCrumb = array_reverse($booksOfBreadCrumb);
         return $booksOfBreadCrumb;
     }

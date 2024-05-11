@@ -14,12 +14,15 @@ class UserSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('user_settings')->insert([
-            [
-                'user_id' => 1,
+        $insertRows = [];
+        for ($i=1; $i<=9; $i++) {
+            $insertRows[] = [
+                'user_id' => $i,
                 'default_voice_name' => 'Google Us English',
-                'is_dark' => true,
-            ],
-        ]);
+                'is_dark' => ($i === 1)? true : mt_rand(0, 1),
+            ];
+        }
+
+        DB::table('user_settings')->insert($insertRows);
     }
 }

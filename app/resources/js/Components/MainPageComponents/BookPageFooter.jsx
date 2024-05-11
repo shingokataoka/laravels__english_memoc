@@ -40,8 +40,8 @@ export default function BookPageFooter({
     <AddNewBookOrWordButton
         currentBookId={currentBookId}
         isEnglishFirstPosition={isEnglishFirstPosition}
-        englishLabel='Add new conversation'
-        japaneseLabel='新しい会話を追加する'
+        englishLabel='Add a new line'
+        japaneseLabel='新しいセリフを追加する'
         isProcessing={isProcessing}
         setIsProcessing={setIsProcessing}
         addTypeIsBook={0}
@@ -50,7 +50,7 @@ export default function BookPageFooter({
     <AddNewBookOrWordButton
         currentBookId={currentBookId}
         isEnglishFirstPosition={isEnglishFirstPosition}
-        englishLabel='Add new book'
+        englishLabel='Add a new book'
         japaneseLabel='新しい本を追加する'
         isProcessing={isProcessing}
         setIsProcessing={setIsProcessing}

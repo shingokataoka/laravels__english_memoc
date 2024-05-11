@@ -1,9 +1,8 @@
-import React, { useEffect, useLayoutEffect, useState, useRef, createRef, createContext} from 'react'
-import {css} from '@emotion/react'
-import {isDark} from '@/Components/DefaultThemeProvider'
+import React, { useEffect, useState, useRef, createRef, createContext} from 'react'
 
 import {Stack} from '@mui/material'
 import BookPageFooter from '@/Components/MainPageComponents/BookPageFooter'
+import BookPageFooterProfileLinks from '@/Components/MainPageComponents/BookPageFooterProfileLinks'
 import BookOrWord from '@/Components/MainPageParts/BookOrWord'
 import SortConfirmContainer from '@/Components/MainPageParts/SortConfirmContainer'
 import SortCompletedModal from '@/Components/MainPageParts/SortCompletedModal'
@@ -150,6 +149,15 @@ export default React.memo( function BookPageMain(props){
                 isProcessing={isProcessing}
                 setIsProcessing={setIsProcessing}
             />
+
+            <BookPageFooterProfileLinks
+                currentBookId={currentBookId}
+                isEnglishFirstPosition={isEnglishFirstPosition}
+                bookOrWords={bookOrWordsRef.current}
+                isProcessing={isProcessing}
+                setIsProcessing={setIsProcessing}
+            />
+
         </BookPageMainContext.Provider>
 
     </Stack>

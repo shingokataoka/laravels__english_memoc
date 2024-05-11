@@ -10,6 +10,10 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { defaultTheme } from '@/Components/DefaultThemeProvider';
 import { css } from '@emotion/react';
 
+
+
+
+
 /** @jsxImportSource @emotion/react */
 export default function Login({ status, canResetPassword }) {
     const palette = defaultTheme().palette
@@ -35,6 +39,12 @@ export default function Login({ status, canResetPassword }) {
     return (
         <GuestLayout>
             <Head title="ログイン" />
+
+            <div css={css`
+                padding: 12px 0;
+                font-weight: bold;
+                opacity: 0.91;
+            `}>ログイン画面</div>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600 dark:text-green-400">{status}</div>}
 

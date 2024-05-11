@@ -89,6 +89,8 @@ export function DefaultThemeProvider(props) {
         transition: all 0.25s;
         background: ${theme.palette.background.default};
         min-height: 100vh;
+        margin:0;
+        padding:0;
     `}>
     <ThemeProvider theme={theme}>
         <CssBaseline />

@@ -6,7 +6,17 @@ import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
+import { css } from '@emotion/react'
+import { defaultTheme } from '@/Components/DefaultThemeProvider';
+
+
+
+
+/** @jsxImportSource @emotion/react */
 export default function UpdatePasswordForm({ className = '' }) {
+
+    const palette = defaultTheme().palette
+
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
@@ -39,16 +49,22 @@ export default function UpdatePasswordForm({ className = '' }) {
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Update Password</h2>
+                <h2 className="text-lg font-medium">
+                    Update Password<br />
+                    パスワードを更新する
+                </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Ensure your account is using a long, random password to stay secure.
+                <p className="mt-1 text-sm opacity-[0.9]">
+                    Ensure your account is using a long, random password to stay secure.<br />
+                    安全を確保するために、アカウントが長くてランダムなパスワードを使用していることを確認してください。
                 </p>
             </header>
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="current_password" value="Current Password" />
+                    <InputLabel htmlFor="current_password" value="Current Password 現在のパスワード"
+                        css={css` color:${palette.text.primary}; `}
+                    />
 
                     <TextInput
                         id="current_password"
@@ -58,13 +74,16 @@ export default function UpdatePasswordForm({ className = '' }) {
                         type="password"
                         className="mt-1 block w-full"
                         autoComplete="current-password"
+                        css={css` background:${palette.bgSub}; `}
                     />
 
                     <InputError message={errors.current_password} className="mt-2" />
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password" value="New Password" />
+                    <InputLabel htmlFor="password" value="New Password 新しいパスワード"
+                        css={css` color:${palette.text.primary}; `}
+                    />
 
                     <TextInput
                         id="password"
@@ -74,13 +93,16 @@ export default function UpdatePasswordForm({ className = '' }) {
                         type="password"
                         className="mt-1 block w-full"
                         autoComplete="new-password"
+                        css={css` background:${palette.bgSub}; `}
                     />
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password_confirmation" value="パスワードの確認" />
+                    <InputLabel htmlFor="password_confirmation" value="Confirm Password パスワードの確認"
+                        css={css` color:${palette.text.primary}; `}
+                    />
 
                     <TextInput
                         id="password_confirmation"
@@ -89,13 +111,17 @@ export default function UpdatePasswordForm({ className = '' }) {
                         type="password"
                         className="mt-1 block w-full"
                         autoComplete="new-password"
+                        css={css` background:${palette.bgSub}; `}
                     />
 
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>
+                        Save<br />
+                        保存
+                    </PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -104,7 +130,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">Saved.</p>
+                        <p className="text-sm opacity-[0.8]">Saved.</p>
                     </Transition>
                 </div>
             </form>
