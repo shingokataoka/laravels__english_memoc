@@ -60,7 +60,7 @@ export function isDark() {
     // ダークモード=true、普通モード=false を取得
     // useMediaQuery()は、コンポーネントまたはカスタムフック内のトップレベルに書くこと
     // ログイン済みなら、ユーザー設定のis_darkを返す。
-    if( usePage().props.auth.user ) {
+    if( usePage().props.user_setting ) {
         const isDark = usePage().props.user_setting.is_dark
         return isDark
     }

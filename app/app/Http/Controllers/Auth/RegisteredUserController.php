@@ -14,6 +14,8 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use App\Models\UserSetting;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -42,6 +44,13 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        // userのsettingも作成する。
+        $userSetting = new UserSetting();
+        $userSetting->user_id = $user->id;
+        $userSetting->default_voice_name = 'Google Us English';
+        $userSetting->is_dark = $request->is_dark;
+        $userSetting->save();
 
         event(new Registered($user));
 

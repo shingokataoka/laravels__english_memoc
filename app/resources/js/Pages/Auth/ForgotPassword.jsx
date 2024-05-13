@@ -4,7 +4,16 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
 
+import { css } from '@emotion/react';
+import { defaultTheme, isDark } from '@/Components/DefaultThemeProvider';
+
+
+
+
+/** @jsxImportSource @emotion/react  */
 export default function ForgotPassword({ status }) {
+    const palette = defaultTheme().palette
+
     const { data, setData, post, processing, errors } = useForm({
         email: '',
     });
@@ -23,7 +32,12 @@ export default function ForgotPassword({ status }) {
                 パスワードをお忘れですか？<br />問題ありません。あなたのメールアドレスをお知らせいただければ、新しいパスワードを選択できるようにパスワードリセットリンクをメールでお送りします。
             </div>
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && <div className="mb-4 font-medium text-sm"
+                css={css`
+                    color:${palette.success.light};
+                    font-weight: bold;
+                `}
+            >{status}</div>}
 
             <form onSubmit={submit}>
                 <TextInput

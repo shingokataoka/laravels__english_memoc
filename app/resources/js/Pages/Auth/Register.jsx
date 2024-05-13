@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 import { css } from '@emotion/react'
-
+import { isDark } from '@/Components/DefaultThemeProvider';
 
 
 
@@ -18,6 +18,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        is_dark: isDark(),
     });
 
     useEffect(() => {

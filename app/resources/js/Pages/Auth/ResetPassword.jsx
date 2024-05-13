@@ -6,7 +6,10 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
 
+import { css } from '@emotion/react';
+
 export default function ResetPassword({ token, email }) {
+
     const { data, setData, post, processing, errors, reset } = useForm({
         token: token,
         email: email,
@@ -29,6 +32,12 @@ export default function ResetPassword({ token, email }) {
     return (
         <GuestLayout>
             <Head title="Reset Password" />
+
+            <div css={css`
+                padding: 12px 0;
+                font-weight: bold;
+                opacity: 0.91;
+            `}>パスワードリセット画面</div>
 
             <form onSubmit={submit}>
                 <div>
@@ -81,7 +90,7 @@ export default function ResetPassword({ token, email }) {
 
                 <div className="flex items-center justify-end mt-4">
                     <PrimaryButton className="ms-4" disabled={processing}>
-                        Reset Password
+                        パスワードリセット
                     </PrimaryButton>
                 </div>
             </form>
