@@ -2,7 +2,18 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Head, Link, useForm } from '@inertiajs/react';
 
+import {css} from '@emotion/react'
+import { defaultTheme } from '@/Components/DefaultThemeProvider'
+
+import { LoadingButton } from '@mui/lab';
+
+
+
+
+/** @jsxImportSource @emotion/react  */
 export default function VerifyEmail({ status }) {
+    const palette = defaultTheme().palette
+
     const { post, processing } = useForm({});
 
     const submit = (e) => {
@@ -13,22 +24,30 @@ export default function VerifyEmail({ status }) {
 
     return (
         <GuestLayout>
-            <Head title="Email Verification" />
+            <Head title="メール認証" />
 
             <div className="mb-4 text-sm text-gray-600">
-                Thanks for signing up! Before getting started, could you verify your email address by clicking on the
-                link we just emailed to you? If you didn't receive the email, we will gladly send you another.
+                登録ありがとうございます！<br />
+                先ほどメールでお送りしたリンクをクリックしてください。<br />
+                するとメールアドレスが正しい事が送信されて、ご利用できるようになります。<br /><br />
+
+                メールが届かない場合は、下記「確認メールを再送信」を押してください。再度メールをお送りいたします。
             </div>
 
             {status === 'verification-link-sent' && (
-                <div className="mb-4 font-medium text-sm text-green-600">
-                    A new verification link has been sent to the email address you provided during registration.
+                <div className="mb-4 font-medium text-sm"
+                    css={css` color:${palette.success.light}; `}
+                >
+                    新しい確認リンクが、登録時に指定した電子メール アドレスに送信されました。
                 </div>
             )}
 
             <form onSubmit={submit}>
                 <div className="mt-4 flex items-center justify-between">
-                    <PrimaryButton disabled={processing}>Resend Verification Email</PrimaryButton>
+                    <LoadingButton variant="contained" color="secondary"
+                        loading={processing}
+                        type="submit"
+                    >確認メールを再送信</LoadingButton>
 
                     <Link
                         href={route('logout')}
@@ -36,7 +55,7 @@ export default function VerifyEmail({ status }) {
                         as="button"
                         className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        Log Out
+                        ログアウト
                     </Link>
                 </div>
             </form>
