@@ -3,7 +3,7 @@ FROM php:8.1-fpm
 ENV TZ Asia/Tokyo
 
 RUN apt-get update && \
-	apt-get install -y git unzip libzip-dev libicu-dev libonig-dev nodejs npm libfreetype6-dev libjpeg62-turbo-dev libpng-dev && \
+	apt-get install -y git unzip libzip-dev libicu-dev libonig-dev nodejs npm libfreetype6-dev libjpeg62-turbo-dev libpng-dev supervisor && \
     docker-php-ext-install intl pdo_mysql zip bcmath gd
 
 COPY ./docker/php.ini /usr/local/etc/php/php.ini

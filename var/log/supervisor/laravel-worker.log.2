@@ -1,0 +1,26 @@
+  2014_10_12_000000_create_users_table ............................. 26ms FAIL
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (Connection: mysql, SQL: drop table if exists `users`)
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:829
+    825▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    826▕                 );
+    827▕             }
+    828▕ 
+  ➜ 829▕             throw new QueryException(
+    830▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    831▕             );
+    832▕         }
+    833▕     }
+
+      [2m+9 vendor frames [22m
+
+  10  database/migrations/2014_10_12_000000_create_users_table.php:31
+      Illuminate\Support\Facades\Facade::__callStatic("dropIfExists")
+      [2m+37 vendor frames [22m
+
+  48  artisan:37
+      Illuminate\Foundation\Console\Kernel::handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+

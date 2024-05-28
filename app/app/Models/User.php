@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Notifications\VerifyEmailNotification;
+
 use App\Models\BookOrWord;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -45,6 +47,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+
+    public function SendEmailVerificationNotification()
+    {
+        $this->notify( new VerifyEmailNotification() );
+    }
 
 
 
