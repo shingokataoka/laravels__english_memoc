@@ -1,6 +1,7 @@
 import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+import UpdateEmailForm from './Partials/UpdateEmailForm';
 import { Head, usePage } from '@inertiajs/react';
 
 import {css}  from '@emotion/react'
@@ -8,6 +9,10 @@ import { defaultTheme, DefaultThemeProvider } from '@/Components/DefaultThemePro
 
 import {Link} from '@inertiajs/react'
 import { Button } from '@mui/material';
+import UpdatedEmailModal from '@/Pages/Profile/Partials/UpdatedEmailModal'
+
+
+
 
 
 /** @jsxImportSource @emotion/react */
@@ -21,6 +26,8 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
 
 
     return (<DefaultThemeProvider>
+
+    <UpdatedEmailModal />
 
     <h1
         css={css`
@@ -51,6 +58,14 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                     className="max-w-xl"
                 />
             </div>
+
+
+            <div className="p-4 sm:p-8 shadow sm:rounded-lg"
+                css={css` background: ${palette.bgMain}; `}
+            >
+                <UpdateEmailForm className="max-w-xl" />
+            </div>
+
 
             <div className="p-4 sm:p-8 shadow sm:rounded-lg"
                 css={css` background: ${palette.bgMain}; `}

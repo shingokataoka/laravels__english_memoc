@@ -130,7 +130,10 @@ export default function UpdatePasswordForm({ className = '' }) {
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm opacity-[0.8]">Saved.</p>
+                        <p className="text-sm text-center opacity-[0.8]">
+                            Saved.<br />
+                            保存完了
+                        </p>
                     </Transition>
                 </div>
             </form>

@@ -43,8 +43,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <p className="mt-1 text-sm"
                     css={css` font-color:${palette.text.secondary}; `}
                 >
-                    Update your account's profile information and email address.<br />
-                    アカウントのプロフィール情報とEメール アドレスを更新します。
+                    Update your account's profile information.<br />
+                    アカウントのプロフィール情報を更新します。
                 </p>
             </header>
 
@@ -68,7 +68,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.name} />
                 </div>
 
-                <div>
+
+                {/* メールアドレス更新は、通常のメール認証を使わないので、コメントアウト。 */}
+                {/* <div>
                     <InputLabel htmlFor="email" value="メールアドレス Email address"
                         css={css` color:${palette.text.primary}; `}
                     />
@@ -85,9 +87,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     />
 
                     <InputError className="mt-2" message={errors.email} />
-                </div>
+                </div> */}
 
-                {mustVerifyEmail && user.email_verified_at === null && (
+                {/* {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
                         <p className="text-sm mt-2"
                         css={css` font-color: ${palette.text.primary};`}
@@ -115,7 +117,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                             </div>
                         )}
                     </div>
-                )}
+                )} */}
+
+
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing}>Save<br />保存</PrimaryButton>
@@ -127,9 +131,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm"
+                        <p className="text-sm text-center"
                             css={css` color:${palette.text.secondary}; `}
-                        >Saved.</p>
+                        >
+                            Saved.<br />
+                            保存完了
+                        </p>
                     </Transition>
                 </div>
             </form>

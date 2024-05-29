@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             '_token' => csrf_token(),
+            'session' => session()->all(),
             'user_setting' => function () {
                if ( auth()->user() === null ) return null;
                if ( auth()->user()->user_setting === null ) return null;

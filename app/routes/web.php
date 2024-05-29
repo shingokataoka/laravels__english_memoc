@@ -9,6 +9,8 @@ use Inertia\Inertia;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
+// メール更新時のメール検証を自前するのに必要なクラスをuseする。
+use App\Http\Controllers\ChangeEmailController;
 
 use App\http\Controllers\User\MainPageController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
@@ -83,6 +85,18 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::get('test', function () {return view('emails.changeEmail'); });
+
+Route::middleware(['auth'])->group(function (){
+
+    // メルアド更新のメルアド確認メールを送信のルーティング。
+    Route::patch('/email/update', [ChangeEmailController::class, 'sendChangeEmailLink'])
+        ->name('email.update');
+
+    // 新規メールアドレスに更新のルーティング。
+    Route::get('reset/{token}', [ChangeEmailController::class, 'reset'])
+        ->name('email.reset');
+});
 
 
 
