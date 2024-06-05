@@ -9,6 +9,18 @@ class BookOrWord extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'user_id',
+        'book_id',
+        'sort_order_number',
+        'type_is_book',
+        'english_word',
+        'japanese_word',
+    ];
+
+
+
     // 親（本）を返すリレーション。
     public function book() {
         return $this->belongsTo(BookOrWord::class, 'book_id', 'id')

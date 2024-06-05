@@ -15,6 +15,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 use App\Models\UserSetting;
+use App\Services\SampleWord;
 
 class RegisteredUserController extends Controller
 {
@@ -51,6 +52,9 @@ class RegisteredUserController extends Controller
         $userSetting->default_voice_name = 'Google Us English';
         $userSetting->is_dark = $request->is_dark;
         $userSetting->save();
+
+        // userのトップページに本orセリフのサンプルをinsertする。
+        SampleWord::create($user->id);
 
         event(new Registered($user));
 

@@ -45,6 +45,7 @@ class MainPageController extends Controller
     public function show(string $book_id)
     {
         $book = BookOrWord::find($book_id);
+        if (empty($book)) return abort(404);
         $bookOrWords = $book->bookOrWords;
         $booksOfBreadCrumb = $book->booksOfBreadCrumb();
 
