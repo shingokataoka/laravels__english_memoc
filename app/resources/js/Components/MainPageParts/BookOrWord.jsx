@@ -221,37 +221,24 @@ const BookOrWord = React.memo( forwardRef( (props, ref) => {
                 { bookOrWord.type_is_book
                     ? <BookIconButton bookOrWord={bookOrWord} />
                     : <div>
-                        <div>
-                            <DefaultSpeakingIconButton
-                                englishWord={bookOrWord.english_word}
-                                voice={null}
-                                voicePitch={null}
-                                color='green'
-                            />
-                            <SlowSpeakingIconButton
-                                englishWord={bookOrWord.english_word}
-                                voice={null}
-                                voicePitch={null}
-                                color='green'
-                                css={css` margin-left: 6px; `}
-                            />
-                        </div>
-                        <div css={css` margin-top: 6px; `}>
-                            <DefaultSpeakingIconButton
-                                englishWord={bookOrWord.english_word}
-                                voice={null}
-                                voicePitch={1.4}
-                                color='blue'
-                            />
-                            <SlowSpeakingIconButton
-                                englishWord={bookOrWord.english_word}
-                                voice={null}
-                                voicePitch={1.4}
-                                color='blue'
-                                css={css` margin-left: 6px; `}
-                            />
-                        </div>
-                        { (0 in voices)
+                        {voices.map((row, index) => (row === null)? '' :
+                            <div key={index} css={css` margin-top: 6px; `}>
+                                <DefaultSpeakingIconButton
+                                    englishWord={bookOrWord.english_word}
+                                    voice={row.voice}
+                                    voicePitch={row.voicePitch}
+                                    color={row.color}
+                                />
+                                <SlowSpeakingIconButton
+                                    englishWord={bookOrWord.english_word}
+                                    voice={row.voice}
+                                    voicePitch={row.voicePitch}
+                                    color={row.color}
+                                    css={css` margin-left: 6px; `}
+                                />
+                            </div>
+                        )}
+                        {/* { (0 in voices)
                         ? <>
                             <div css={css` margin-top: 6px; `}>
                                 <DefaultSpeakingIconButton
@@ -284,7 +271,7 @@ const BookOrWord = React.memo( forwardRef( (props, ref) => {
                                 />
                             </div>
                         </>
-                        : '' }
+                        : '' } */}
                     </div>
                 }
 

@@ -18,10 +18,10 @@ export const BookPageMainContext = createContext()
 export default React.memo( function BookPageMain(props){
     const {currentBookId, bookOrWords, isEnglishFirstPosition, isShowAllAnswer, isProcessing, setIsProcessing} = props
 
-
+    const [isFirstRender, setIsFirstRender] = useState(true)
 
     const [apiVoices, setApiVoices] = useState({})
-    const [voices, setVoices] = useState([]) /* BookOrWordコンポーネントに渡す。 */
+    const [voices, setVoices] = useState([null, null, null, null]) /* BookOrWordコンポーネントに渡す。 */
 
     const bookOrWordsRef = useRef([])
     const bookOrWordDomRefsRef = useRef([])
@@ -72,31 +72,59 @@ export default React.memo( function BookPageMain(props){
     }, [])
 
     useEffect( () => {
-        const tmpVoices = []
+        const colors = ['green', 'blue', 'indigo', 'purple']
+        const tmpVoices = [...voices]
+        let tmpIndex = 2;
+
         const pushVoice = (voiceName) => {
-            if (voiceName in apiVoices)
-            { tmpVoices.push(apiVoices[voiceName]) }
+            if ( !(voiceName in apiVoices) ) return
+            if( tmpIndex >= 4) tmpIndex = 0
+
+            const row = {
+                voice: apiVoices[voiceName],
+                voicePitch: null,
+                color: colors[tmpIndex],
+            }
+            tmpVoices[tmpIndex] = row
+            tmpIndex++
         }
-        const ua = window.navigator.userAgent.toLowerCase();
-        // Macの場合。
-        if(ua.indexOf("mac os x") !== -1) {
-            console.log("「macOS」をお使いですね!");
-            pushVoice('Samantha');
-        // Windowsの場合。
-        } else if(ua.indexOf("windows nt") !== -1) {
-            console.log("「Microsoft Windows」をお使いですね!");
-        // IOSの場合。
-        } else if(ua.indexOf("iphone") !== -1 || ua.indexOf("ipad") !== -1) {
-            console.log("「iOS」をお使いですね!");
-            pushVoice('Samantha');
-        // Androidの場合。
-        } else if(ua.indexOf("android") !== -1) {
-           console.log("「Android」をお使いですね!");
+
+        // 初回レンダリング時のみ。isFirstRender
+        if (isFirstRender) {
+            // デフォの高い音を追加しておく。
+            tmpVoices[0] = {
+                voice: null,
+                voicePitch: 1.4,
+                color: colors[0],
+            }
+            // 最初にデフォルトの音も追加しておく。
+            tmpVoices[1] = {
+                voice: null,
+                voicePitch: null,
+                color: colors[1],
+            }
         }
+
+        // Macの良い声を取得し追加する。
+        pushVoice('Aaron');
+        pushVoice('Samantha');
+        pushVoice('Nicky');
+
+        // googleChromeの良い声を取得し追加する。
+        pushVoice('Google US English');
+
+        // Microsoft Edgeの良い声を取得し追加する。
+        pushVoice('Microsoft AvaMultilingual Online (Natural) - English (United States)');
+        pushVoice('Microsoft AndrewMultilingual Online (Natural) - English (United States)');
+        pushVoice('Microsoft Christopher Online (Natural) - English (United States)');
+        pushVoice('Microsoft Ana Online (Natural) - English (United States)');
 
         setVoices(tmpVoices)
     }, [apiVoices] )
 
+
+
+    useEffect(() => { setIsFirstRender(false) }, [isFirstRender])
 
 
 
