@@ -104,8 +104,9 @@ export default function SlowSpeakingIconButton({
 
             <svg
                 style={{
-                    // fill: palette.primary.main,
                     fill: fontColor,
+                    width: '100vw',
+                    heigit: '100vw',
                     transformOrigin: '50% 50%',
                     transform: `
                         scaleX(-1)
