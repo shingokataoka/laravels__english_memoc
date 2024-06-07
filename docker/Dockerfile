@@ -1,6 +1,6 @@
 FROM php:8.1-fpm
 
-ENV TZ Asia/Tokyo
+ENV TZ UTC
 
 RUN apt-get update && \
 	apt-get install -y git unzip libzip-dev libicu-dev libonig-dev nodejs npm libfreetype6-dev libjpeg62-turbo-dev libpng-dev supervisor && \
