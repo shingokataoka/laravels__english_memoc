@@ -26,3 +26,7 @@ yarn-error.log
 /app/storage/debugbar
 /app/storage/debugbar/*.json
 /docker-compose.yml
+/app/public/build/assets/
+!/app/public/build/assets/.gitkeep
+var/log/
+!var/log/.gitkeep
