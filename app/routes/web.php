@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 // メール更新時のメール検証を自前するのに必要なクラスをuseする。
 use App\Http\Controllers\ChangeEmailController;
 
-use App\http\Controllers\User\MainPageController;
+use App\Http\Controllers\User\MainPageController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
 use App\Http\Controllers\Api\ApiUserSettingController;
 
