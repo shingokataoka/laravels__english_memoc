@@ -15,13 +15,10 @@ const blockBrowserBack = useCallback(() => {
         replace: true,  // 履歴を上
         preserveScroll: (page) => Object.keys(page.props.errors).length,
     })
-    console.log(2, window.location.href)
 }, [])
 
 
 useEffect(() => {
-
-
     // イベントリスナー'popstate'でブラウザバックや「進む」時に、上記の関数をセット。
     window.addEventListener('popstate', blockBrowserBack)
     // クリーンアップは忘れない
