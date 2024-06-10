@@ -3,6 +3,7 @@ import { usePage } from "@inertiajs/react"
 import { defaultTheme, DefaultThemeProvider } from "@/Components/DefaultThemeProvider"
 import {css} from '@emotion/react'
 
+import AllPageComponent from '@/Components/AllPageComponent'
 
 import {Stack} from "@mui/material"
 import { Button } from "@mui/material"
@@ -25,7 +26,9 @@ export default function Index({auth}) {
     `
 
 
-    return (<DefaultThemeProvider><div css={css`
+    return (<DefaultThemeProvider>
+    <AllPageComponent />
+    <div css={css`
         box-sizing: border-box;
         min-height: 100vh;
         background: ${palette.bgBack};

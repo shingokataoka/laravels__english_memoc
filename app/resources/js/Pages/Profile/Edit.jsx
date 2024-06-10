@@ -7,6 +7,8 @@ import { Head, usePage } from '@inertiajs/react';
 import {css}  from '@emotion/react'
 import { defaultTheme, DefaultThemeProvider } from '@/Components/DefaultThemeProvider';
 
+import AllPageComponent from '@/Components/AllPageComponent'
+
 import {Link} from '@inertiajs/react'
 import { Button } from '@mui/material';
 import UpdatedEmailModal from '@/Pages/Profile/Partials/UpdatedEmailModal'
@@ -26,6 +28,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
 
 
     return (<DefaultThemeProvider>
+    <AllPageComponent />
 
     <UpdatedEmailModal />
 

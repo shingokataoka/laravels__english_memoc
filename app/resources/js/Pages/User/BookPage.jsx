@@ -4,6 +4,8 @@ import { useState } from "react"
 import {Head} from '@inertiajs/react'
 import  { DefaultThemeProvider }  from "@/Components/DefaultThemeProvider"
 
+import AllPageComponent from '@/Components/AllPageComponent'
+
 import BookPageHeader from '@/Components/MainPageComponents/BookPageHeader'
 import BookPageMain from '@/Components/MainPageComponents/BookPageMain'
 
@@ -28,7 +30,7 @@ export default function BookPage({auth, book, bookOrWords, booksOfBreadCrumb}){
 
 
     return (<DefaultThemeProvider>
-
+        <AllPageComponent />
             <Head title={ booksOfBreadCrumb[booksOfBreadCrumb.length-1].japanese_word } />
 
         <BookPageHeader

@@ -3,6 +3,8 @@ import { useState } from "react"
 
 import  { DefaultThemeProvider }  from "@/Components/DefaultThemeProvider"
 
+import AllPageComponent from '@/Components/AllPageComponent'
+
 import TopPageHeader from '@/Components/MainPageComponents/TopPageHeader'
 import BookPageMain from '@/Components/MainPageComponents/BookPageMain'
 
@@ -27,6 +29,7 @@ export default function TopPage({auth, bookOrWords}){
 
 
     return (<DefaultThemeProvider>
+        <AllPageComponent />
 
         <TopPageHeader
             isEnglishFirstPosition={ isEnglishFirstPosition }
