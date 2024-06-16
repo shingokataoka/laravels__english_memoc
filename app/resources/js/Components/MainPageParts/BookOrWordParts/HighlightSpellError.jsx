@@ -5,6 +5,11 @@ import { useRef, useEffect } from 'react'
 import { css } from '@emotion/react'
 import {defaultTheme} from '@/Components/DefaultThemeProvider'
 
+import { Stack } from '@mui/material'
+
+import DefaultSpeakingIconButton from "@/Components/MainPageParts/BookOrWordParts/DefaultSpeakingIconButton"
+import SlowSpeakingIconButton from "@/Components/MainPageParts/BookOrWordParts/SlowSpeakingIconButton"
+
 
 
 
@@ -13,7 +18,8 @@ export default function HighlightSpellError({
     bookOrWordIndex,
     upBalloonProps,
     setUpBalloonProps,
-    text
+    text,
+    voices,
 }) {
     const palette = defaultTheme().palette
 
@@ -24,7 +30,49 @@ export default function HighlightSpellError({
     }, [])
 
     // 和訳を見れるようにして返す、の共通処理。
-    const returnJapaneseTranslation = (searchWord, word, index, sWord=null, color=null) => {
+    const returnJapaneseTranslation = (
+            searchWord,
+            word,
+            index,
+            sWord=null, // 元が複数系の英単語なら元の英単語を入れる。
+            color=null, // 前文字か先頭文字を大文字に変換した検索なら、オレンジ色を入れる。
+        ) => {
+        // 再生ボタンのJSX。
+        const SpeakIconsJsx = <>
+            <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={0.8}
+            >
+            {voices.map((voiceObj, index) => (voiceObj === null)? '' :
+                <DefaultSpeakingIconButton
+                    key={index}
+                    englishWord={ (sWord)? sWord : searchWord }
+                    voice={voiceObj.voice}
+                    voicePitch={voiceObj.voicePitch}
+                    color={voiceObj.color}
+                />
+            )}
+            </Stack>
+            <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={0.8}
+                css={css`margin: 5px 0 3px 0;`}
+            >
+            {voices.map((voiceObj, index) => (voiceObj === null)? '' :
+                <SlowSpeakingIconButton
+                    key={index}
+                    englishWord={ (sWord)? sWord : searchWord }
+                    voice={voiceObj.voice}
+                    voicePitch={voiceObj.voicePitch}
+                    color={voiceObj.color}
+                />
+            )}
+            </Stack>
+        </>
         // 和訳を<hr />改行に変換。
         const hrJsx = <hr css={css`border-color:#888b;`} />
         const japaneseTranslation = spellWords[searchWord].split(/(\/)/).map((row, index2) => {
@@ -37,8 +85,8 @@ export default function HighlightSpellError({
 
         const japaneseTranslationJsx = (<>
             <div css={css`text-align:center;`}>
-                {searchWord}
-                { (sWord)? `（複数系：${sWord}）` : '' }
+                { (sWord)? `${sWord}（単数系：${searchWord}）` : searchWord }
+                {SpeakIconsJsx}
             </div>
             {hrJsx}
             {japaneseTranslation}

@@ -255,6 +255,7 @@ const BookOrWord = React.memo( forwardRef( (props, ref) => {
                     onChangeWord={onChangeWord}
                     english_word={bookOrWord.english_word}
                     textFieldCss={textFieldCss}
+                    voices={voices}
                 />
                 : <JapaneseTextField
                     onChangeWord={onChangeWord}
@@ -280,6 +281,7 @@ const BookOrWord = React.memo( forwardRef( (props, ref) => {
                     onChangeWord={onChangeWord}
                     english_word={bookOrWord.english_word}
                     textFieldCss={textFieldCss}
+                    voices={voices}
                 />
             }
             </div>
@@ -331,6 +333,7 @@ const EnglishTextField = ({
     onChangeWord,
     english_word,
     textFieldCss,
+    voices,
 }) => {
 
     return (<>
@@ -349,6 +352,7 @@ const EnglishTextField = ({
             upBalloonProps={upBalloonProps}
             setUpBalloonProps={setUpBalloonProps}
             text={english_word}
+            voices={voices}
         />
 
     </>)

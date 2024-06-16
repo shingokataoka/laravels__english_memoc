@@ -165,6 +165,7 @@ export default React.memo( function BookPageMain(props){
             bookPageMainDomRef={bookPageMainDomRef}
             upBalloonProps={upBalloonProps}
             setUpBalloonProps={setUpBalloonProps}
+            voices={voices}
         />
 
         { bookOrWordsRef.current.map((bookOrWord, index) => (
