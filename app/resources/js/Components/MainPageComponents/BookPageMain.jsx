@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useRef, createRef, createContext} from 'react'
 
+import {css} from '@emotion/react'
+
+import UpBulloon from '@/Components/MainPageComponents/UpBulloon'
+
 import {Stack} from '@mui/material'
 import BookPageFooter from '@/Components/MainPageComponents/BookPageFooter'
 import BookPageFooterProfileLinks from '@/Components/MainPageComponents/BookPageFooterProfileLinks'
@@ -17,6 +21,20 @@ export const BookPageMainContext = createContext()
 /** @jsxImportSource @emotion/react */
 export default React.memo( function BookPageMain(props){
     const {currentBookId, bookOrWords, isEnglishFirstPosition, isShowAllAnswer, isProcessing, setIsProcessing} = props
+
+    const [upBalloonProps, setUpBalloonProps] = useState({
+        isBalloonHover: false,
+        hoverWordIndex: null,
+        dummyW: 0,
+        isShow: false,
+        x: 0,
+        y: 0,
+        wordIndex: null,
+        text: 'テストテキスト。テストテキスト。テストテキスト。テストテキスト。テストテキスト。',
+    })
+
+
+    const bookPageMainDomRef = useRef(null)
 
     const [isFirstRender, setIsFirstRender] = useState(true)
 
@@ -131,11 +149,24 @@ export default React.memo( function BookPageMain(props){
 
     return (<>
     <Stack
+        ref={bookPageMainDomRef}
         direction="column"
         justifyContent="center"
         alignItems="center"
         spacing={0}
+        css={css`
+            margin: 0 auto;
+            max-width: 500px;
+            padding:0 4px;
+            position: relative;
+        `}
     >
+        <UpBulloon
+            bookPageMainDomRef={bookPageMainDomRef}
+            upBalloonProps={upBalloonProps}
+            setUpBalloonProps={setUpBalloonProps}
+        />
+
         { bookOrWordsRef.current.map((bookOrWord, index) => (
             <React.Fragment key={index}>
                 <BookOrWord
@@ -157,6 +188,8 @@ export default React.memo( function BookPageMain(props){
                     setIsProcessing={setIsProcessing}
                     isSortMode={isSortMode}
                     isDeleteMode={isDeleteMode}
+                    upBalloonProps={upBalloonProps}
+                    setUpBalloonProps={setUpBalloonProps}
                 />
 
             </React.Fragment>)
