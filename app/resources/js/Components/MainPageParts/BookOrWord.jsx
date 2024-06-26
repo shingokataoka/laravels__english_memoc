@@ -57,35 +57,28 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
 
 
 
-    // 「日本語を隠す」を押した時の処理。
-    const showAnswerToggle = () => {
-    // 隠すor表示を切り替え。
-    bookOrWord.isShowAnswer = !bookOrWord.isShowAnswer
-    // レンダーを起動。
-    setToggleAnswerRender( value => !value )
-    }
 
 
 
     // 「英語or日本語を隠す」を切り替えた時のアニメーション。
     useLayoutEffect( () => {
-    // 初回レンダリング時はアニメーション時間0mSec
-    let animateMSec =(isFirstRenderRef.current)? 0 : 100
-    // 並び替えモード処理時のアニメーション時間0mec
-    if (replacementIndex0 === index) animateMSec = 0
-    if (replacementIndex1 === index) animateMSec = 0
+        // 初回レンダリング時はアニメーション時間0mSec
+        let animateMSec =(isFirstRenderRef.current)? 0 : 100
+        // 並び替えモード処理時のアニメーション時間0mec
+        if (replacementIndex0 === index) animateMSec = 0
+        if (replacementIndex1 === index) animateMSec = 0
 
-    // First。元の高さを取得。
-    const FirstHeight = word1DivRef.current.getBoundingClientRect().height
-    // 高さを変更する。
-    word1DivRef.current.style.height = bookOrWord.isShowAnswer? 'auto' : '0px'
-    // Last。変更後の高さを取得。
-    const LastHeight = word1DivRef.current.getBoundingClientRect().height
-    // Invert。アニメーションを実行する。
-    word1DivRef.current.animate([
-        { height: `${FirstHeight}px` },
-        { height: `${LastHeight}px` },
-    ], animateMSec)
+        // First。元の高さを取得。
+        const FirstHeight = word1DivRef.current.getBoundingClientRect().height
+        // 高さを変更する。
+        word1DivRef.current.style.height = bookOrWord.isShowAnswer? 'auto' : '0px'
+        // Last。変更後の高さを取得。
+        const LastHeight = word1DivRef.current.getBoundingClientRect().height
+        // Invert。アニメーションを実行する。
+        word1DivRef.current.animate([
+            { height: `${FirstHeight}px` },
+            { height: `${LastHeight}px` },
+        ], animateMSec)
     }, [toggleAnswerRender, replacementIndex0, replacementIndex1] )
 
 
@@ -219,7 +212,9 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
     >
 
         { bookOrWord.type_is_book
+            // 本アイコンを表示。
             ? <BookIconButton bookOrWord={bookOrWord} />
+            // 声再生アイコンを表示。
             : <div>
                 {voices.map((row, index) => (row === null)? '' :
                     <div key={index} css={css` margin-top: 6px; `}>
@@ -295,6 +290,7 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
             }
             </div>
 
+            {/* 日本語を見るボタン。 */}
             <ShowAnswerToggleButton
                 isEnglishFirstPosition={isEnglishFirstPosition}
                 bookOrWord={bookOrWord}

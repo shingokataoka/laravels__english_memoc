@@ -23,6 +23,7 @@ export default function HighlightSpellError({
 }) {
     const palette = defaultTheme().palette
 
+    // 足りない辞書を追加。
     useEffect( () => {
         spellWords["Gundam"] = `白い高性能モビルスーツ。
             初代は連邦軍が開発した。/
@@ -37,6 +38,9 @@ export default function HighlightSpellError({
 
     // BookOrWordのid + バルーンのidが必要だからそれ用。
     let BalloonId = 0
+
+
+
     // 和訳を見れるようにして返す、の共通処理。
     const returnJapaneseTranslation = (
             searchWord, // 辞書にあった英単語。
@@ -80,8 +84,12 @@ export default function HighlightSpellError({
             )}
             </Stack>
         </>
-        // 和訳を<hr />改行に変換。
+
+
+
         const hrJsx = <hr css={css`border-color:#888b;`} />
+
+        // 和訳の「/」を<hr />改行に変換。
         const japaneseTranslation = spellWords[searchWord].split(/(\/)/).map((row, index2) => {
             return (
                 <React.Fragment key={index2}>
@@ -320,17 +328,20 @@ const EnglishWordAndJapaneseTranslation = ({
     const japaneseText = (<>
         {japaneseTranslation}
         <hr css={css` border-color: ${palette.text.disabled} `} />
-        <a
-            target="_blank"
-            href="https://kujirahand.com/web-tools/EJDictFreeDL.php"
-            css={css`
-                color: ${palette.info.main};
-                font-size: 0.8rem;
-                text-decoration: underline;
-                &:hover{ background: #29b6a633; }
-            `}
-        >利用辞書「ejdict-hand」（パブリックドメイン）</a>
-        <span css={css`font-size: 0.8rem;`}>と当サイトが追加した単語集</span>
+        <span css={css`font-size: 0.8rem;`}>
+            利用辞書
+            <a
+                target="_blank"
+                href="https://kujirahand.com/web-tools/EJDictFreeDL.php"
+                css={css`
+                    color: ${palette.info.main};
+                    font-size: 0.8rem;
+                    text-decoration: underline;
+                    &:hover{ background: #29b6a633; }
+                `}
+            >「ejdict-hand」（パブリックドメイン）</a>
+            と当サイトが追加した単語集
+        </span>
         。
     </>)
 

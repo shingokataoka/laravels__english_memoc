@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react'
+import {useRef, useEffect, useState} from 'react'
 
 import {css} from '@emotion/react'
 import {defaultTheme} from '@/Components/DefaultThemeProvider'
@@ -17,9 +17,13 @@ export default function ShowAnswerToggleButton({
     }) {
 
     const answerLanguageRef = useRef('')
+    const [answerLanguage, setIsAnswerLanguage] = useState( isEnglishFirstPosition
+        ? '日本語'
+        : '英語'
+    )
 
     useEffect( () => {
-        answerLanguageRef.current =(isEnglishFirstPosition)? '日本語' : '英語'
+        setIsAnswerLanguage( isEnglishFirstPosition? '日本語' : '英語')
     }, [isEnglishFirstPosition])
 
 
@@ -35,8 +39,8 @@ export default function ShowAnswerToggleButton({
     return (<ShowToggleButton
     /* function */ onClick={ toggleShow }
     /* boolean */ isShow={bookOrWord.isShowAnswer}
-    /* string */ showButtonText={ `${answerLanguageRef.current}を見る` }
-    /* string */ hideButtonText={ `${answerLanguageRef.current}を隠す` }
+    /* string */ showButtonText={ `${answerLanguage}を見る` }
+    /* string */ hideButtonText={ `${answerLanguage}を隠す` }
     className={className}
     />)
 }
