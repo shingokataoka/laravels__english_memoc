@@ -16,7 +16,10 @@ use App\Http\Controllers\User\MainPageController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
 use App\Http\Controllers\Api\ApiUserSettingController;
 
+// みんなの翻訳@extra のコントローラ。
 use App\Http\Controllers\Api\ApiTranslationController;
+// Gemini（googleのAI）のAPIのコントローラ。
+use App\Http\Controllers\Api\ApiAnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +33,7 @@ use App\Http\Controllers\Api\ApiTranslationController;
 */
 
 
-
+// サイトトップindexのルーティング。
 Route::get('/', function () {
     return Inertia::render('Index', [
         'canLogin' => Route::has('login'),
@@ -41,6 +44,8 @@ Route::get('/', function () {
 });
 
 
+
+// ログインユーザー用のルーティングのグループ
 Route::middleware(['auth', 'verified'])->group(function() {
 
     Route::get('/top', [MainPageController::class, 'index'])
@@ -75,7 +80,22 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::post('japanese_to_english', [ApiTranslationController::class, 'fetchJapaneseToEnglish'])
             ->name('japanese_to_english');
     });
+
+
+    // Gemini（googleのAi）のApi系のルーティング
+    Route::prefix('api_translation_correct/')->name('api.translation_correct.')->group(function(){
+        //英和の返答を取得。
+        Route::get('japanese_answer', [ApiAnswerController::class, 'japanese_answer'])
+            ->name('japanese_answer');
+        // 和英の返答を取得。
+        Route::get('english_answer', [ApiAnswerController::class, 'english_answer'])
+            ->name('english_answer');
+    });
+
+
 });
+
+
 
 
 
@@ -96,8 +116,9 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('test', function () {return view('emails.changeEmail'); });
 
+
+// メルアド検証系のログイン後のルーティングのグループ。
 Route::middleware(['auth'])->group(function (){
 
     // メルアド更新のメルアド確認メールを送信のルーティング。
