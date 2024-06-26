@@ -16,6 +16,8 @@ use App\Http\Controllers\User\MainPageController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
 use App\Http\Controllers\Api\ApiUserSettingController;
 
+use App\Http\Controllers\Api\ApiTranslationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,6 +66,15 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::resource('api/user_setting', ApiUserSettingController::class);
     });
 
+    // みんなの翻訳を使うクラスのルーティング。
+    Route::prefix('api_translation_')->name('api.translation.')->group(function(){
+        // 英文を和訳にして返す。
+        Route::post('english_to_japanese', [ApiTranslationController::class, 'fetchEnglishToJapanese'])
+            ->name('english_to_japanese');
+        // 和文を英訳にして返す。
+        Route::post('japanese_to_english', [ApiTranslationController::class, 'fetchJapaneseToEnglish'])
+            ->name('japanese_to_english');
+    });
 });
 
 

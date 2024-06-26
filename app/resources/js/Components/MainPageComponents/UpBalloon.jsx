@@ -5,7 +5,7 @@ import {css} from '@emotion/react'
 
 
 /** @jsxImportSource @emotion/react */
-export default function UpBulloon({
+export default function UpBalloon({
     bookPageMainDomRef,
     upBalloonProps,
     setUpBalloonProps,
@@ -315,12 +315,12 @@ const Balloon = ({
     if (!isShow) return ''
 
 
-    return (<label
+    return (<div
         ref={currentDomRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         css={cssObj}
-    >{text}</label>)
+    >{text}</div>)
 }
 
 

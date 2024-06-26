@@ -33,6 +33,7 @@ const lightTheme = {
         bgMain: colors.grey[100],
         bgSub: colors.grey[200],
         bgBack: colors.grey[300],
+        bgTextField: colors.grey[100],
     },
 }
 
@@ -49,6 +50,7 @@ const darkTheme = {
         bgMain: colors.grey[700],
         bgSub: colors.grey[800],
         bgBack: colors.grey[900],
+        bgTextField: '#2a2a2a',
     }
 }
 

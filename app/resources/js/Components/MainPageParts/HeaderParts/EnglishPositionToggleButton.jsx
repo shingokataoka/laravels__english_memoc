@@ -59,7 +59,7 @@ export default function EnglishPositionToggleButton({
             padding-left: 5px;
             padding-right: 5px;
             text-transform: none;
-            font-size: 0.7rem;
+            font-weight: bold;
         `}
         className={className}
     >

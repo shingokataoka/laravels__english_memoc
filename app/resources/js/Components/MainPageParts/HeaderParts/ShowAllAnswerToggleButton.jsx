@@ -58,7 +58,7 @@ export default function ShowAllAnswerToggleButton({
 
 
     return (<ShowToggleButton
-        className={className}
+        /* css引き継ぎ用 */ className={className}
         /* function */ onClick={handleClick}
         /* boolean */ isShow={isShowAllAnswer}
         /* string */ showButtonText={`全て${secondPositionLanguage}を見る`}

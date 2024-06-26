@@ -28,8 +28,8 @@ export default function ShowToggleButton({
         css={css`
             padding: 6px 4px 6px 3px;
             text-transform: none;
-            font-size:0.7rem;
             width: calc(10em);
+            font-weight: bold;
         `}
     >
 

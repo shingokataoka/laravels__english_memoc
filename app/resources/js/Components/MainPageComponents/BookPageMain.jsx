@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, createRef, createContext} from 'rea
 
 import {css} from '@emotion/react'
 
-import UpBulloon from '@/Components/MainPageComponents/UpBulloon'
+import UpBalloon from '@/Components/MainPageComponents/UpBalloon'
 
 import {Stack} from '@mui/material'
 import BookPageFooter from '@/Components/MainPageComponents/BookPageFooter'
@@ -161,7 +161,7 @@ export default React.memo( function BookPageMain(props){
             position: relative;
         `}
     >
-        <UpBulloon
+        <UpBalloon
             bookPageMainDomRef={bookPageMainDomRef}
             upBalloonProps={upBalloonProps}
             setUpBalloonProps={setUpBalloonProps}
