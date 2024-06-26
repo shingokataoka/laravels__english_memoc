@@ -29,6 +29,7 @@ export default function HighlightSpellError({
             初代は連邦軍が開発した。/
             漫画やアニメなどの空想上の存在だが、現実には等身大の巨大模型が製作された過去がある。`
         spellWords["bored"] = '退屈'
+        spellWords["ing"] = '主語+ingで現在進行形/〇〇ing：〇〇している'
         spellWords["n't"] = 'notの省略系'
         spellWords["'s"] = "has, is, us,(疑問詞のあとの) doesの短縮形/"
             + "Tom's : トムの｜Marie's : マリーの"
@@ -224,9 +225,10 @@ export default function HighlightSpellError({
     }
 
 
-    // 単語を短縮系で分割して返す。分割不可ならfalseを返す。
+    // 単語を短縮系やingで分割して返す。分割不可ならfalseを返す。
     const wordSplitToContractions = (word) => {
         const splitWords = [
+            /(ing)/g,
             /(n't)/g,
             /('ll)/g,
             /('ve)/g,
