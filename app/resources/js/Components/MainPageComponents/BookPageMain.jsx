@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef, createRef, createContext} from 'rea
 import {css} from '@emotion/react'
 
 import UpBalloon from '@/Components/MainPageComponents/UpBalloon'
+import WebSpeachApiVoices from '@/Components/WebSpeachApiVoices'
 
 import {Stack} from '@mui/material'
 import BookPageFooter from '@/Components/MainPageComponents/BookPageFooter'
@@ -14,6 +15,7 @@ import DeleteModeExitContainer from '../MainPageParts/DeleteModeExitContainer'
 
 
 export const BookPageMainContext = createContext()
+
 
 
 
@@ -36,10 +38,8 @@ export default React.memo( function BookPageMain(props){
 
     const bookPageMainDomRef = useRef(null)
 
-    const [isFirstRender, setIsFirstRender] = useState(true)
 
-    const [apiVoices, setApiVoices] = useState({})
-    const [voices, setVoices] = useState([null, null, null, null]) /* BookOrWordコンポーネントに渡す。 */
+    const [voices, setVoices] = useState([]) /* BookOrWordコンポーネントに渡す。 */
 
     const bookOrWordsRef = useRef([])
     const bookOrWordDomRefsRef = useRef([])
@@ -72,82 +72,9 @@ export default React.memo( function BookPageMain(props){
 
 
 
-    // web speach apiの英語の声一覧を取得。
-    const appendVoices = () => {
-        const tmpApiVoices = speechSynthesis.getVoices()
-        const tmpVoices = {}
-        tmpApiVoices.map(voice => {
-            if (voice.lang === 'en-US') tmpVoices[voice.name] = voice
-        })
-        setApiVoices(tmpVoices)
-    }
-
-    useEffect( () => {
-        appendVoices()
-        speechSynthesis.onvoiceschanged = e => {
-            appendVoices()
-        }
-    }, [])
-
-    useEffect( () => {
-        const colors = ['green', 'blue', 'indigo', 'purple']
-        const tmpVoices = [...voices]
-        let tmpIndex = 2;
-
-        const pushVoice = (voiceName) => {
-            if ( !(voiceName in apiVoices) ) return
-            if( tmpIndex >= 4) tmpIndex = 0
-
-            const row = {
-                voice: apiVoices[voiceName],
-                voicePitch: null,
-                color: colors[tmpIndex],
-            }
-            tmpVoices[tmpIndex] = row
-            tmpIndex++
-        }
-
-        // 初回レンダリング時のみ。isFirstRender
-        if (isFirstRender) {
-            // デフォの高い音を追加しておく。
-            tmpVoices[0] = {
-                voice: null,
-                voicePitch: 1.4,
-                color: colors[0],
-            }
-            // 最初にデフォルトの音も追加しておく。
-            tmpVoices[1] = {
-                voice: null,
-                voicePitch: null,
-                color: colors[1],
-            }
-        }
-
-        // Macの良い声を取得し追加する。
-        pushVoice('Aaron');
-        pushVoice('Samantha');
-        pushVoice('Nicky');
-
-        // googleChromeの良い声を取得し追加する。
-        pushVoice('Google US English');
-
-        // Microsoft Edgeの良い声を取得し追加する。
-        pushVoice('Microsoft AvaMultilingual Online (Natural) - English (United States)');
-        pushVoice('Microsoft AndrewMultilingual Online (Natural) - English (United States)');
-        pushVoice('Microsoft Christopher Online (Natural) - English (United States)');
-        pushVoice('Microsoft Ana Online (Natural) - English (United States)');
-
-        setVoices(tmpVoices)
-    }, [apiVoices] )
-
-
-
-    useEffect(() => { setIsFirstRender(false) }, [isFirstRender])
-
-
-
 
     return (<>
+    <WebSpeachApiVoices voices={voices} setVoices={setVoices} />
     <Stack
         ref={bookPageMainDomRef}
         direction="column"

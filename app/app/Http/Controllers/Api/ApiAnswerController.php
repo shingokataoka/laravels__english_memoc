@@ -13,7 +13,7 @@ class ApiAnswerController extends Controller
 {
 
 
-    // 下記二つのメソッド。
+    // 下記二つの共通の処理のメソッド。
     // japanese_answer(日本語か正解か)とenglish_answer(英語が正解か)の共通処理のメソッド。
     // 戻り値は全て文字列で、正解="true"、不正解="false"、エラー="error"。
     public static function answer($geminiText)
@@ -35,27 +35,30 @@ class ApiAnswerController extends Controller
 
 
 
+
     // 英文に対しての和訳が正しいかを返す。 文字列でtrue false errorを返す。
     public function japanese_answer(Request $request)
     {
-        $englishText = "I want to eat ramen.";
-        $japaneseText = "私はラーメンが食べたいです。";
+        $englishText = $request->post('englishText');
+        $japaneseText = $request->post('japaneseText');
 
         // Geminiへの質問文を作成。
-        $geminiText = "「{$englishText}」の日本語訳は「{$japaneseText}」でも正解ですか。trueかfalseのみで答えてください。";
+        $geminiText = "英語「{$englishText}」の日本語訳は「{$japaneseText}」でも正解ですか。trueかfalseのみで答えてください。";
         return self::answer($geminiText);
     }
+
+
 
 
 
     // 日本語文に対しての英訳が正しいかを返す。 文字列でtrue false errorを返す。
     public function english_answer(Request $request)
     {
-        $englishText = "I want to eat udon.";
-        $japaneseText = "私はラーメンが食べたいです。";
+        $englishText = $request->post('englishText');
+        $japaneseText = $request->post('japaneseText');
 
         // Geminiへの質問文を作成。
-        $geminiText = "「{$japaneseText}」の英訳は「{$englishText}」でも正解ですか。trueかfalseのみで答えてください。";
+        $geminiText = "日本語「{$japaneseText}」の英訳は「{$englishText}」でも正解ですか。trueかfalseのみで答えてください。";
         return self::answer($geminiText);
     }
 

@@ -26,7 +26,7 @@ export default function TopPageHeader({
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={1}
+        spacing={2}
         css={css` padding: 8px 0 ; `}
     >
 
@@ -48,6 +48,15 @@ export default function TopPageHeader({
 
             <h1 css={css` font-weight: bold; `}>{ appName }</h1>
         </Stack>
+
+        <Button variant="outlined"
+            component={Link}
+            href={route('talk_to_app.select_voice')}
+            css={css`
+                border: 1px ${palette.primary.main} solid;
+                font-weight: bold;
+            `}
+        >アプリと英会話する</Button>
 
 
 

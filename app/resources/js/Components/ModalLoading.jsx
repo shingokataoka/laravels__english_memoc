@@ -10,7 +10,7 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 /** @jsxImportSource @emotion/react */
 export default function ModalLoading({
     /* boolean */ isShow,
-    /* string */ text = 'solid',
+    /* string */ text = 'テキスト',
 }) {
     const stackDomRef = useRef(null)
     const iconDomRef = useRef(null)

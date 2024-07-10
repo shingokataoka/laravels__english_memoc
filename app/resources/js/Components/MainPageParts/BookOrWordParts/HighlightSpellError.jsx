@@ -29,6 +29,8 @@ export default function HighlightSpellError({
             初代は連邦軍が開発した。/
             漫画やアニメなどの空想上の存在だが、現実には等身大の巨大模型が製作された過去がある。`
         spellWords["bored"] = '退屈'
+        spellWords["ATM"] = 'ATM、お金を下ろしたりできる機械のこと。'
+        spellWords["email"] = '電子メール。スマホやパソコンなどコンピューター上のメール。'
         spellWords["ing"] = '主語+ingで現在進行形/〇〇ing：〇〇している'
         spellWords["n't"] = 'notの省略系'
         spellWords["'s"] = "has, is, us,(疑問詞のあとの) doesの短縮形/"

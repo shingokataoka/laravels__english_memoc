@@ -10,6 +10,7 @@ import {Stack} from '@mui/material'
 import {TextField} from '@mui/material'
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import InsightsIcon from '@mui/icons-material/Insights';
+import {Button} from '@mui/material'
 
 import BookIconButton from '@/Components/MainPageParts/BookOrWordParts/BookIconButton'
 import DefaultSpeakingIconButton from "@/Components/MainPageParts/BookOrWordParts/DefaultSpeakingIconButton"
@@ -21,6 +22,7 @@ import SortModeContainer from '@/Components/MainPageParts/BookOrWordParts/SortMo
 import HighlightSpellError from '@/Components/MainPageParts/BookOrWordParts/HighlightSpellError'
 
 import ModalLoading from '@/Components/ModalLoading'
+import { Link } from '@inertiajs/react'
 
 
 
@@ -115,7 +117,7 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
     // DBへ自動保存の処理。
     const onChangeWord = useCallback( (newWord, enOrJaKey) => {
         // bookOrWordを更新する（bookOrWords.currentも更新される）。
-        bookOrWord[enOrJaKey] = newWord
+        bookOrWord[enOrJaKey] = (newWord + '').replace(/(\r\n|\n|\r)/gm, '')
         // レンダリング用useState。
         setWordRender(value => !value)
         // 自動保存の関数を実行
@@ -194,6 +196,17 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
 
 
 
+    // ボタン「和訳」「英訳」「リスニング」のCSS。
+    const LinkButtonCss = css`
+        font-weight: bold;
+        padding-left: 0;
+        padding-right: 0;
+        border-color: ${palette.warning.main}
+    `
+
+
+
+
 
     return (<Stack
         ref={ref}
@@ -212,8 +225,24 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
     >
 
         { bookOrWord.type_is_book
-            // 本アイコンを表示。
-            ? <BookIconButton bookOrWord={bookOrWord} />
+            // 本アイコンと和訳・英訳・リスニングボタンを表示。
+            ? (<Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                spacing={1}
+            >
+                <BookIconButton bookOrWord={bookOrWord} />
+                <Button variant="outlined" color="warning" component={Link}
+                    href={route('book.japanese_translation', {book_id: bookOrWord.id})}
+                css={LinkButtonCss}>和訳</Button>
+                <Button variant="outlined" color="warning" component={Link}
+                    href={route('book.english_translation', {book_id: bookOrWord.id})}
+                css={LinkButtonCss}>英訳</Button>
+                <Button variant="outlined" color="warning" component={Link}
+                    href={route('book.listening', {book_id: bookOrWord.id})}
+                css={LinkButtonCss}>聞き取り</Button>
+            </Stack>)
             // 声再生アイコンを表示。
             : <div>
                 {voices.map((row, index) => (row === null)? '' :

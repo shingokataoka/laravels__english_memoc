@@ -16,6 +16,12 @@ use App\Http\Controllers\User\MainPageController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
 use App\Http\Controllers\Api\ApiUserSettingController;
 
+// 本の中身を和訳・英訳・リスニングなどするページのコントローラ。
+use App\Http\Controllers\User\BookController;
+
+// アプリと英会話系のコントローラ。
+use App\Http\Controllers\User\TalkToAppController;
+
 // みんなの翻訳@extra のコントローラ。
 use App\Http\Controllers\Api\ApiTranslationController;
 // Gemini（googleのAI）のAPIのコントローラ。
@@ -50,8 +56,26 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
     Route::get('/top', [MainPageController::class, 'index'])
         ->name('main.top');
+
     Route::get('/book/{book_id}', [MainPageController::class, 'show'])
         ->name('main.book');
+    // 本の和訳クイズのページ。
+    Route::get('/book/{book_id}/japanese_translation', [BookController::class, 'japanese_translation'])
+        ->name('book.japanese_translation');
+    // 本の英訳クイズのページ。
+    Route::get('/book/{book_id}/english_translation', [BookController::class, 'english_translation'])
+        ->name('book.english_translation');
+    // 本のリスニングクイズのページ。
+    Route::get('/book/{book_id}/listening', [BookController::class, 'listening'])
+        ->name('book.listening');
+
+    // 「アプリと英会話する」系のルーティング。
+    // アプリの声を選択するページ。
+    Route::get('talk_to_app/select_voice', [TalkToAppController::class, 'selectVoice'])
+        ->name('talk_to_app.select_voice');
+    // アプリと英会話するページ。
+    Route::get('talk_to_app', [TalkToAppController::class, 'index'])
+        ->name('talk_to_app.index');
 
     // bookOrWordをDBへ更新する処理。
     Route::put('/api/book/{book_id}', [ApiBookOrWordController::class, 'update'])
@@ -85,10 +109,10 @@ Route::middleware(['auth', 'verified'])->group(function() {
     // Gemini（googleのAi）のApi系のルーティング
     Route::prefix('api_translation_correct/')->name('api.translation_correct.')->group(function(){
         //英和の返答を取得。
-        Route::get('japanese_answer', [ApiAnswerController::class, 'japanese_answer'])
+        Route::post('japanese_answer', [ApiAnswerController::class, 'japanese_answer'])
             ->name('japanese_answer');
         // 和英の返答を取得。
-        Route::get('english_answer', [ApiAnswerController::class, 'english_answer'])
+        Route::post('english_answer', [ApiAnswerController::class, 'english_answer'])
             ->name('english_answer');
     });
 

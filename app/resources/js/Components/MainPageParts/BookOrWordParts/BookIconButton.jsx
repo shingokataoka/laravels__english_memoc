@@ -50,10 +50,6 @@ export default function BookIconButton({bookOrWord}) {
             & > div {
                 margin: 0;
             }
-            // & > span *:nth-of-type(1){
-            //     border-radius: 50% 50%;
-            //     box-shadow: 0 0 100px 0 #fff inset;
-            // }
         `}
     >
 
@@ -109,6 +105,7 @@ export default function BookIconButton({bookOrWord}) {
 
                 text-align: center;
                 font-size: 0.85rem;
+                font-weight: bold;
                 color: ${bookCoverFontColor};
             `}>
                 Open<br />
