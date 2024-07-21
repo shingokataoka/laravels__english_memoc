@@ -24,8 +24,10 @@ use App\Http\Controllers\User\TalkToAppController;
 
 // みんなの翻訳@extra のコントローラ。
 use App\Http\Controllers\Api\ApiTranslationController;
-// Gemini（googleのAI）のAPIのコントローラ。
+// Gemini（googleのAI）のAPIのクイズ答案系のコントローラ。
 use App\Http\Controllers\Api\ApiAnswerController;
+// Gemini（googleのAI）のAPIのAIとトーク系のコントローラ。
+use App\Http\Controllers\Api\ApiTalkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,13 +71,17 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/book/{book_id}/listening', [BookController::class, 'listening'])
         ->name('book.listening');
 
-    // 「アプリと英会話する」系のルーティング。
-    // アプリの声を選択するページ。
-    Route::get('talk_to_app/select_voice', [TalkToAppController::class, 'selectVoice'])
-        ->name('talk_to_app.select_voice');
-    // アプリと英会話するページ。
-    Route::get('talk_to_app', [TalkToAppController::class, 'index'])
+    // 「アプリと英会話する」ページのルーティング。
+    Route::get('talk_to_app/{appVoiceIndex}/{userVoiceIndex}', [TalkToAppController::class, 'index'])
+        ->where(['appVoiceIndex' => '[0-9]+', 'userVoiceIndex' => '[0-9]+' ])
         ->name('talk_to_app.index');
+    // 「アプリと英会話する」ページの前にアプリの声を選ぶページのルーティング。
+    Route::get('talk_to_app/voice_select', [TalkToAppController::class, 'voiceSelect'])
+        ->name('talk_to_app.voice_select');
+    // 「アプリと英会話する」ページの前にユーザーの声を選ぶページのルーティング。
+    Route::get('talk_to_app/user_voice_select/{appVoiceIndex}', [TalkToAppController::class, 'userVoiceSelect'])
+        ->where(['appVoiceIndex' => '[0-9]+'])
+        ->name('talk_to_app.user_voice_select');
 
     // bookOrWordをDBへ更新する処理。
     Route::put('/api/book/{book_id}', [ApiBookOrWordController::class, 'update'])
@@ -106,7 +112,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     });
 
 
-    // Gemini（googleのAi）のApi系のルーティング
+    // Gemini（googleのAI）のApi系のルーティング。英和クイズ関係。
     Route::prefix('api_translation_correct/')->name('api.translation_correct.')->group(function(){
         //英和の返答を取得。
         Route::post('japanese_answer', [ApiAnswerController::class, 'japanese_answer'])
@@ -116,6 +122,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
             ->name('english_answer');
     });
 
+    // Gemini（googleのAI）のapi系のルーティング。AIと会話の返答関係。
+    Route::post('api_talk/reply', [ApiTalkController::class, 'reply'])
+        ->name('api_talk.reply');
 
 });
 

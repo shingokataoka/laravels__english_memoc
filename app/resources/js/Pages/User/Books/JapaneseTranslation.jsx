@@ -6,8 +6,7 @@ import BooksComponent from '@/Components/BooksComponent'
 import DefaultSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/DefaultSpeakingIconButton'
 import SlowSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/SlowSpeakingIconButton'
 
-import UpBalloon from '@/Components/MainPageComponents/UpBalloon'
-import HighlightSpellError from '@/Components/MainPageParts/BookOrWordParts/HighlightSpellError'
+import TranslationButtonsArea from '@/Components/TranslationButtonsArea'
 
 
 
@@ -18,14 +17,10 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
     const [voices, setVoices] = useState([])
 
     const [upBalloonProps, setUpBalloonProps] = useState({
-        isBalloonHover: false,
-        hoverWordIndex: null,
-        dummyW: 0,
-        isShow: false,
-        x: 0,
-        y: 0,
-        wordIndex: null,
-        text: 'テストテキスト。テストテキスト。テストテキスト。テストテキスト。テストテキスト。',
+        showStatus: 'none',   // 表示管理。'none'、'processing'=表示準備中(座標計算など)、'show'
+        x: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        y: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        jsx: <>バルーンの中身JSX</>,  // バルーン内に表示するSJXを指定。
     })
 
     // 最初の順指定='selectSort'、普通='normal'、正解='correct'、不正解='incorrect'。
@@ -197,9 +192,14 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
 
         {/* 英文の各英単語の和訳表示ボタン */}
         <div css={css` flex: 1; `}>
-            <HighlightSpellError
+            {/* <HighlightSpellError
                 questionIndex={question.id}
                 upBalloonProps={upBalloonProps}
+                setUpBalloonProps={setUpBalloonProps}
+                text={question.english_word}
+                voices={voices}
+            /> */}
+            <TranslationButtonsArea
                 setUpBalloonProps={setUpBalloonProps}
                 text={question.english_word}
                 voices={voices}

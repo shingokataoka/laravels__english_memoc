@@ -9,6 +9,7 @@ import {Link} from '@inertiajs/react'
 
 import ShowAllAnswerToggleButton from '@/Components/MainPageParts/HeaderParts/ShowAllAnswerToggleButton'
 import EnglishPositionToggleButton from '@/Components/MainPageParts/HeaderParts/EnglishPositionToggleButton'
+import ApiTalkLinkButton from './ApiTalkLinkButton'
 
 
 
@@ -49,14 +50,7 @@ export default function TopPageHeader({
             <h1 css={css` font-weight: bold; `}>{ appName }</h1>
         </Stack>
 
-        <Button variant="outlined"
-            component={Link}
-            href={route('talk_to_app.select_voice')}
-            css={css`
-                border: 1px ${palette.primary.main} solid;
-                font-weight: bold;
-            `}
-        >アプリと英会話する</Button>
+        <ApiTalkLinkButton />
 
 
 

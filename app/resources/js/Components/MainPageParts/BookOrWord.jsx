@@ -23,6 +23,7 @@ import HighlightSpellError from '@/Components/MainPageParts/BookOrWordParts/High
 
 import ModalLoading from '@/Components/ModalLoading'
 import { Link } from '@inertiajs/react'
+import TranslationButtonsArea from '../TranslationButtonsArea'
 
 
 
@@ -547,13 +548,11 @@ const EnglishTextField = ({
             <div css={css`
                 ${fontCss}
                 display:${isShowSpellJsx? 'block' : 'none'};
-                margin: 2px 0 0 4px;
-                padding-top: 0px 0 0 0;
+                margin: -1px 0 0 4px;
+                padding: 0px 3px 0 0;
                 background: ${palette.bgTextField};
             `}>
-                <HighlightSpellError
-                    bookOrWordIndex={bookOrWordIndex}
-                    upBalloonProps={upBalloonProps}
+                <TranslationButtonsArea
                     setUpBalloonProps={setUpBalloonProps}
                     text={english_word}
                     voices={voices}
@@ -748,7 +747,7 @@ const JapaneseTextField = ({
             <div css={css`
                 ${fontCss}
                 display:${isShowSpellJsx? 'block' : 'none'};
-                margin: 2px 0 0 4px;
+                margin: -1px 0 0 4px;
                 padding-top: 0px 0 0 0;
                 white-space: pre-wrap;
                 background: ${palette.bgTextField};

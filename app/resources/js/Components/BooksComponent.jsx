@@ -5,6 +5,7 @@ import {css} from '@emotion/react'
 import {router} from '@inertiajs/react'
 
 import UpBalloon from '@/Components/MainPageComponents/UpBalloon'
+import UpBalloon2 from '@/Components/UpBalloon2'
 
 import WebSpeachApiVoices from '@/Components/WebSpeachApiVoices'
 
@@ -14,6 +15,7 @@ import {Button} from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ModalLoading from '@/Components/ModalLoading'
+import CharacterIcon from './CharacterIcon'
 
 
 
@@ -540,15 +542,7 @@ export default function BooksComponent({
         width: 100%;
     `}>
         {/* キャラアイコン画像 */}
-        <div css={css`
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            background-image: url('/images/characters/life_gauge.jpg');
-            background-size: 95px 95px;
-            background-position: center -20px;
-            background-repeat: no-repeat;
-        `} />
+        <CharacterIcon />
 
         {/* ライフゲージ */}
         <div css={css`
@@ -637,15 +631,8 @@ export default function BooksComponent({
                 padding-bottom: 16px;
             `}
         >
-            { (upBalloonProps === null)? '' :
-                <UpBalloon
-                    bookPageMainDomRef={currentDomRef}
-                    upBalloonProps={upBalloonProps}
-                    setUpBalloonProps={setUpBalloonProps}
-                    voices={voices}
-                />
-            }
 
+            {/* 「メインページへ戻る」ボタン */}
             <Button
                 onClick={topLinkClick}
                 css={css`
@@ -744,6 +731,10 @@ export default function BooksComponent({
 
     return (<DefaultThemeProvider>
     <ModalLoading isShow={isModalShow} text="...考え中" />
+    <UpBalloon2
+        upBalloonProps={upBalloonProps}
+        setUpBalloonProps={setUpBalloonProps}
+    />
     <div
         ref={currentDomRef}
         css={css`

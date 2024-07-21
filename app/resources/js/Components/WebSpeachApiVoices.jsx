@@ -4,8 +4,6 @@ import { useState, useEffect } from "react"
 
 
 
-
-
 // webSpeachApiの声を返すためのコンポーネント。
 // useStateで以下の引数を渡すと、voicesに声が入ります。
 export default function WebSpeachApiVoices({
@@ -92,8 +90,15 @@ export default function WebSpeachApiVoices({
         pushVoice('Google US English');
 
         // Microsoft Edgeの良い声を取得し追加する。
-        pushVoice('Microsoft AvaMultilingual Online (Natural) - English (United States)');
-        pushVoice('Microsoft AndrewMultilingual Online (Natural) - English (United States)');
+
+        // この二つはMultilinagual(多分他言語対応)だから再生までが遅い。
+        // pushVoice('Microsoft AvaMultilingual Online (Natural) - English (United States)');
+        // pushVoice('Microsoft AndrewMultilingual Online (Natural) - English (United States)');
+
+        // 上記と同じ声で、英語のみだから遅くないのが以下二つの声。
+        pushVoice('Microsoft Ava Online (Natural) - English (United States)');
+        pushVoice('Microsoft Andrew Online (Natural) - English (United States)');
+
         pushVoice('Microsoft Christopher Online (Natural) - English (United States)');
         pushVoice('Microsoft Ana Online (Natural) - English (United States)');
 

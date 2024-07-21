@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef, createRef, createContext} from 'rea
 import {css} from '@emotion/react'
 
 import UpBalloon from '@/Components/MainPageComponents/UpBalloon'
+import UpBalloon2 from '@/Components/UpBalloon2'
 import WebSpeachApiVoices from '@/Components/WebSpeachApiVoices'
 
 import {Stack} from '@mui/material'
@@ -25,14 +26,10 @@ export default React.memo( function BookPageMain(props){
     const {currentBookId, bookOrWords, isEnglishFirstPosition, isShowAllAnswer, isProcessing, setIsProcessing} = props
 
     const [upBalloonProps, setUpBalloonProps] = useState({
-        isBalloonHover: false,
-        hoverWordIndex: null,
-        dummyW: 0,
-        isShow: false,
-        x: 0,
-        y: 0,
-        wordIndex: null,
-        text: 'テストテキスト。テストテキスト。テストテキスト。テストテキスト。テストテキスト。',
+        showStatus: 'none',   // 表示管理。'none'、'processing'=表示準備中(座標計算など)、'show'
+        x: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        y: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        jsx: <>バルーンの中身JSX</>,  // バルーン内に表示するSJXを指定。
     })
 
 
@@ -75,6 +72,10 @@ export default React.memo( function BookPageMain(props){
 
     return (<>
     <WebSpeachApiVoices voices={voices} setVoices={setVoices} />
+    <UpBalloon2
+        upBalloonProps={upBalloonProps}
+        setUpBalloonProps={setUpBalloonProps}
+    />
     <Stack
         ref={bookPageMainDomRef}
         direction="column"
@@ -88,12 +89,12 @@ export default React.memo( function BookPageMain(props){
             position: relative;
         `}
     >
-        <UpBalloon
+        {/* <UpBalloon
             bookPageMainDomRef={bookPageMainDomRef}
             upBalloonProps={upBalloonProps}
             setUpBalloonProps={setUpBalloonProps}
             voices={voices}
-        />
+        /> */}
 
         { bookOrWordsRef.current.map((bookOrWord, index) => (
             <React.Fragment key={index}>

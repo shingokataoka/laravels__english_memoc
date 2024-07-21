@@ -166,8 +166,8 @@ const DummyBalloon = forwardRef( ({
 
     return (<div css={css`
         position: fixed;
-        // top:0;
-        // left:0;
+        top:0;
+        left:0;
         visibility: hidden;
         // background:pink;
         width: 500%;

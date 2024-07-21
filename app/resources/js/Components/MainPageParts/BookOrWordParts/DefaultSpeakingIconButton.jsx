@@ -1,3 +1,5 @@
+import {useRef, useEffect} from 'react'
+
 import { css } from '@emotion/react';
 import { defaultTheme, isDark } from '@/Components/DefaultThemeProvider';
 import * as colors from '@mui/material/colors'
@@ -15,6 +17,15 @@ export default function DefaultSpeakingIconButton({
         /* 'blue' or 'green' or 'purple */  color,
     }) {
     const palette = defaultTheme().palette
+
+    // このコンポーネント内の変数。
+    const dataRef = useRef({
+        uttr: null,   // webSpeechApiの再生系オブジェクトを入れる変数。
+    })
+    // 上記のエイリアス。
+    const data = dataRef.current
+
+
 
     let defaultBgColor
     let activeBgColor
@@ -39,34 +50,44 @@ export default function DefaultSpeakingIconButton({
 
 
 
-    const englishSpeaking = (e) => {
-        speechSynthesis.cancel() /* 前回の再生途中なら完全に止める。 */
 
-        const uttr = new SpeechSynthesisUtterance()
+    // 初回か英文が変わったら、声のオブジェクトを生成しておく。
+    useEffect( () => {
 
         // 英語セリフが空文字の再生テキスト・速度・言語をセット。
         if (!englishWord) {
-            uttr.text = '英語のセリフがありません。'
-            uttr.rate = 1.5
-            uttr.lang = 'ja-JP'
+            data.uttr = new SpeechSynthesisUtterance('英語のセリフがありません。')
+            data.uttr.rate = 1.5
+            data.uttr.lang = 'ja-JP'
         // 英語セリフに英語を含まない場合の再生テキスト・速度・言語をセット。
         } else if ( /[a-zA-Z0-9.]/.test(englishWord) === false ) {
-            uttr.text = '英語のセリフに英語が含まれていません。'
-            uttr.rate = 1.5
-            uttr.lang = 'ja-JP'
+            data.uttr = new SpeechSynthesisUtterance('英語のセリフに英語が含まれていません。')
+            data.uttr.rate = 1.5
+            data.uttr.lang = 'ja-JP'
         // 正常なら、英語セリフ・言語・あるならvoiceをセット。
         } else {
-            uttr.text = englishWord
+            data.uttr = new SpeechSynthesisUtterance(englishWord)
             if (voice !== null){
-                uttr.voice = voice
+                data.uttr.voice = voice
             }
-            uttr.pitch =(voicePitch === null)? 1 : voicePitch
-            uttr.rate = 1
-            uttr.lang = 'en-US'
+            data.uttr.pitch =(voicePitch === null)? 1 : voicePitch
+            data.uttr.rate = 1
+            data.uttr.lang = 'en-US'
         }
 
+    // 第二引数voiceは、voices読み込みが完全に完了してからの再生系オブジェクトを生成したいから。
+    }, [englishWord, voice])
+
+
+
+
+
+
+    const englishSpeaking = (e) => {
+        speechSynthesis.cancel() /* 前回の再生途中なら完全に止める。 */
+
         // 再生を実行。
-        speechSynthesis.speak(uttr)
+        speechSynthesis.speak(data.uttr)
     }
 
 

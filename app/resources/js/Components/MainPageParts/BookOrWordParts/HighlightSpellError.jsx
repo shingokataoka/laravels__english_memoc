@@ -211,7 +211,7 @@ export default function HighlightSpellError({
         const englishWord = word
 
         const japaneseTranslation = (<>
-            "{word.toLowerCase()}" は当サイト利用の辞書にありません。<br />
+            "{word.toLowerCase()}" は当サイト利用の辞書にはありません。<br />
             固有名詞（名前）などなら気にしないでください。
         </>)
 
