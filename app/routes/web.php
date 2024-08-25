@@ -28,6 +28,8 @@ use App\Http\Controllers\Api\ApiTranslationController;
 use App\Http\Controllers\Api\ApiAnswerController;
 // Gemini（googleのAI）のAPIのAIとトーク系のコントローラ。
 use App\Http\Controllers\Api\ApiTalkController;
+// Gemini（googleのAI）に不明な英単語を教えてもらう系のコントローラ。
+use App\Http\Controllers\Api\ApiAiTranslationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,7 @@ use App\Http\Controllers\Api\ApiTalkController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 
 // サイトトップindexのルーティング。
@@ -102,7 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     });
 
     // みんなの翻訳を使うクラスのルーティング。
-    Route::prefix('api_translation_')->name('api.translation.')->group(function(){
+    Route::prefix('api_translation/')->name('api.translation.')->group(function(){
         // 英文を和訳にして返す。
         Route::post('english_to_japanese', [ApiTranslationController::class, 'fetchEnglishToJapanese'])
             ->name('english_to_japanese');
@@ -111,6 +114,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
             ->name('japanese_to_english');
     });
 
+    // Geminiに単語の意味を教えてもらうAPI。
+    route::post('api_translations/en', [ApiAiTranslationController::class, 'fetchInsertTranslations'])
+        ->name('api.translations.en');
 
     // Gemini（googleのAI）のApi系のルーティング。英和クイズ関係。
     Route::prefix('api_translation_correct/')->name('api.translation_correct.')->group(function(){

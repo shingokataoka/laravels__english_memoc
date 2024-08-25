@@ -59,7 +59,7 @@ class ApiTalkController extends Controller
         }
         EOT;
 
-        // Geminiから返答をもらう。メソッドはgeminiProを使っているが、geminiProは無料版だから大丈夫。ただし、google
+        // Geminiから返答をもらう。メソッドはgeminiProを使っているが、geminiProは無料版だから大丈夫。GoogleのAIです。
         try {
             $result = Gemini::geminiPro()->generateContent($prompt);
             // JSONをデコードして受け取る。

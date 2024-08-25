@@ -3,18 +3,21 @@ import { useState, useRef, useEffect } from 'react'
 import {css} from '@emotion/react'
 
 import BooksComponent from '@/Components/BooksComponent'
-import DefaultSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/DefaultSpeakingIconButton'
-import SlowSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/SlowSpeakingIconButton'
-
-import HighlightSpellError from '@/Components/MainPageParts/BookOrWordParts/HighlightSpellError'
-
-
+import CommonProvider from '@/Components/CommonProvider'
 
 
 
 /** @jsxImportSource @emotion/react */
 export default function Listening({auth, bookOrWords, parentBookId}) {
     const [voices, setVoices] = useState([])
+
+
+    const [upBalloonProps, setUpBalloonProps] = useState({
+        showStatus: 'none',   // 表示管理。'none'、'processing'=表示準備中(座標計算など)、'show'
+        x: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        y: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        jsx: <>バルーンの中身JSX</>,  // バルーン内に表示するSJXを指定。
+    })
 
 
     // 最初の順指定='selectSort'、普通='normal'、正解='correct'、不正解='incorrect'。
@@ -50,7 +53,7 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
         //  解答例上の「他の訳例」か「訳例」をセットする。
         if (
             status === 'normal'
-            || ( status === 'correct' && question['answerColumnName'] === inputValue )
+            || ( status === 'correct' && question.english_word === inputValue )
         ) { setExampleAnswerLabel('') }
         else if (status === 'correct') { setExampleAnswerLabel('他の例訳：') }
         else if (status === 'incorrect') { setExampleAnswerLabel('例訳：') }
@@ -100,7 +103,8 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
 
 
 
-    return (<BooksComponent
+    return (<CommonProvider>
+    <BooksComponent
         auth={auth}
         bookOrWords={bookOrWords}
         parentBookId={parentBookId}
@@ -124,10 +128,13 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
         setExampleAnswerLabel={setExampleAnswerLabel}
         isEnglishSpeak={false}
         isAnswerEnglishSpeak={true}
+        upBalloonProps={upBalloonProps}
+        setUpBalloonProps={setUpBalloonProps}
     >
                     {/* 英文の各英単語の和訳表示ボタン */}
                     <div css={css` flex: 1; `}>
                         {question.japanese_word}
                     </div>
-    </BooksComponent>)
+    </BooksComponent>
+    </CommonProvider>)
 }

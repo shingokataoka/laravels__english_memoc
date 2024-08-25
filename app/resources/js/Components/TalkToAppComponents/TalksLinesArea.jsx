@@ -21,9 +21,9 @@ export default function TalksLinesArea({
     const palette = defaultTheme().palette
 
     // TalkToAppからの値を受け取る。
-    const {ApiVoice, userVoicem, lines, linesAnimateStatus, setLinesAnimateStatus} = useContext(TalksLinesAreaContext)
+    const {ApiVoice, userVoicem, lines, linesAnimateStatus, setLinesAnimateStatus, checkTranslations, setCheckTranslations} = useContext(TalksLinesAreaContext)
 
-    // lines[0]とlines[2]にアヌメーション用。
+    // lines[0]とlines[2]にアニメーション用。
     const dom0Ref = useRef(null)
     const dom2Ref = useRef(null)
     // アニメーションミリ秒。
@@ -31,6 +31,7 @@ export default function TalksLinesArea({
 
     // 初回レンダリングを管理。
     const [isFirstRender, setIsFirstRender] = useState(false)
+
 
 
 
@@ -52,6 +53,7 @@ export default function TalksLinesArea({
                 {height: 0, overflowY: 'hidden'},
                 {height: `${dom2Height}px`, overflowY: 'hidden'},
             ], slideMSec)
+
             // 0にslideUp非表示アニメをセットする。
             const dom0Height = dom0Ref.current.getBoundingClientRect().height
             const animation = dom0Ref.current.animate([
@@ -90,6 +92,9 @@ export default function TalksLinesArea({
             // overflow-yも'visible'に戻す。
             dom0Ref.current.style.overflowY = 'visible'
 
+            // lines[1]の 辞書にない英単語があればAIからもらう。
+            setCheckTranslations(true)
+
             // linesAnimateStatusを 通常 に戻す。
             setLinesAnimateStatus('none')
         }
@@ -122,8 +127,16 @@ export default function TalksLinesArea({
         </div>
         {/* lines[1] */}
         <div>
-            { (lines[1].who === 'ai')? <LineOfApp line={lines[1]} /> : ''}
-            { (lines[1].who === 'user')? <LineOfUser line={lines[1]} /> : ''}
+            { (lines[1].who === 'ai')? <LineOfApp
+                line={lines[1]}
+                checkTranslations={checkTranslations}
+                setCheckTranslations={setCheckTranslations}
+            /> : ''}
+            { (lines[1].who === 'user')? <LineOfUser
+                line={lines[1]}
+                checkTranslations={checkTranslations}
+                setCheckTranslations={setCheckTranslations}
+            /> : ''}
         </div>
         {/* lines[2] */}
         <div ref={dom2Ref}>

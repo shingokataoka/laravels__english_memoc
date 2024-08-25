@@ -136,6 +136,8 @@ export default function TalkInput({
             css={css`
                 ${textFieldCss}
                 ${fontCss}
+                background: ${isShowTextField? palette.bgTextField : 'none'};
+
                 & > div {
                     ${ isShowTextField
                         ? `box-shadow: inset 0px 0px 7px 1px ${focusLineColor};`

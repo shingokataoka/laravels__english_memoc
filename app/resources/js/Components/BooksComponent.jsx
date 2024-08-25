@@ -62,7 +62,7 @@ export default function BooksComponent({
 
 
     // 親本へのURL（なければトップへのURL）。
-    const parentUrl =(parentBookId === null)
+    const parentUrl =(parentBookId === null || parentBookId >= 1)
         ? route('main.top')
         : route('main.book', {book_id: parentBookId})
 

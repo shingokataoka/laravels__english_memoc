@@ -19,7 +19,7 @@ class ApiAnswerController extends Controller
     public static function answer($geminiText)
     {
         try {
-            // Geminiから返答をもらう。メソッドはgeminiProを使っているが、geminiProは無料版だから大丈夫。ただし、google
+            // Geminiから返答をもらう。メソッドはgeminiProを使っているが、geminiProは無料版だから大丈夫。googleのAIです。
             $result = Gemini::geminiPro()->generateContent($geminiText);
             // 返答は文字列の"true"か"false"を返してもらっているはず。
             $resText = $result->candidates[0]->content->parts[0]->text;

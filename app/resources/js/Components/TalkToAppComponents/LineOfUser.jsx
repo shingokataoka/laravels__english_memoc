@@ -11,6 +11,8 @@ import Line from "@/Components/TalkToAppComponents/Line";
 export default memo(LineOfUser)
 function LineOfUser({
     line,
+    checkTranslations = false,
+    setCheckTranslations = null,
 }) {
 
     const palette = defaultTheme().palette
@@ -36,7 +38,7 @@ function LineOfUser({
             <div css={css`
                 margin-top: 10px;
                 border: 5px #0000 solid;
-                border-left-color: ${isLight? '' : '#255'};
+                border-left-color: ${isLight? '#dfd' : '#255'};
                 transform:
                     scaleX(5)
                     rotate(-25deg);
@@ -45,12 +47,16 @@ function LineOfUser({
             <div css={css`
                 margin-right: 9px;
                 width: 400px;
-                background: ${isLight? '' : '#255'};
+                background: ${isLight? '#dfd' : '#255'};
                 border-radius: 8px;
                 padding: 12px;
             `}>
                 {/* セリフ。 */}
-                <Line line={line} />
+                <Line
+                    line={line}
+                    checkTranslations={checkTranslations}
+                    setCheckTranslations={setCheckTranslations}
+                />
             </div>
         </div>
     )

@@ -11,6 +11,8 @@ import StartTalkModal from '@/Components/TalkToAppComponents/StartTalkModal'
 
 import UpBalloon2 from '@/Components/UpBalloon2'
 import WebSpeachApiVoices from '@/Components/WebSpeachApiVoices'
+import CommonProvider from '@/Components/CommonProvider'
+
 import { DefaultThemeProvider } from '@/Components/DefaultThemeProvider'
 
 
@@ -55,7 +57,7 @@ function TalkToApp({
             {
                 index: 1,
                 who: 'ai',
-                englishLine: '英語でお話しをしよう！\r\n\r\n ボクはAIだから、たまに的外れなこと言うかもだけど許してね。\r\n\r\nそれと、個人情報などは絶対に書かないでね。\r\n（AIが情報として吸ってしまう可能性がありためです。）',
+                englishLine: '英語でお話しをしよう！\r\n\r\n ボクはAIだから、たまに的外れなこと言うかもだけど許してね。\r\n\r\nそれと、個人情報などは絶対に書かないでね。\r\n（AIが情報として吸ってしまう可能性があるためです。）',
                 japaneseLine: ``
             },
             {
@@ -116,22 +118,25 @@ function TalkToApp({
     // 最初のモーダル画面で「Let's Talk♪」を押したならtrue、「Yes.」を押したならfalseを保存。
     const [isOnBgm, setIsOnBgm] = useState(false)
 
+    // lines[1]の辞書にない英単語をAPIでAIに確認するか管理。(「...辞書にない英単語を確認中」)
+    const [checkTranslations, setCheckTranslations] = useState(false)
+
 
 
     // useContextの値。TalkToHeader.jsx以下に渡す値。
     const TalkToHeaderProps = {isOnBgm}
 
     // useContextの値。セリフ文の表示切り替えボタンShow3Button.jsxに渡す値。
-    const show3ButtonProps = {showLineStatus, setShowLineStatus, }
+    const show3ButtonProps = {showLineStatus, setShowLineStatus, checkTranslations, setCheckTranslations}
 
     // useContextの値。Line.jsxに渡す値。
     const lineProps = {voices, apiVoice, upBalloonProps, setUpBalloonProps, showLineStatus, fetchApiStatus}
 
     // useContextの値。TalksLinesArea.jsxに渡す値。
-    const talksLinesAreaProps = {apiVoice, userVoice, lines: data.lines, linesAnimateStatus, setLinesAnimateStatus, voices, setVoices}
+    const talksLinesAreaProps = {apiVoice, userVoice, lines: data.lines, linesAnimateStatus, setLinesAnimateStatus, voices, setVoices, checkTranslations, setCheckTranslations}
 
     // useContextの値。TalkToInputContext.jsxに渡す値。
-    const TalkToInputFooterProps = {voices, setVoices, userVoice, apiVoice, inputValue, setInputValue, lines: data.lines, setLinesAnimateStatus, fetchApiStatus, setFetchApiStatus, showLineStatus, setShowLineStatus}
+    const TalkToInputFooterProps = {voices, setVoices, userVoice, apiVoice, inputValue, setInputValue, lines: data.lines, setLinesAnimateStatus, fetchApiStatus, setFetchApiStatus, showLineStatus, setShowLineStatus, checkTranslations, setCheckTranslations}
 
 
 
@@ -154,6 +159,7 @@ function TalkToApp({
 
 
     return (<DefaultThemeProvider>
+    <CommonProvider>
         {/* 声を取得するためのJSX */}
         <WebSpeachApiVoices voices={voices} setVoices={setVoices} />
 
@@ -193,7 +199,7 @@ function TalkToApp({
             </TalkToInputFooterContext.Provider>
         </div>
 
-
+    </CommonProvider>
     </DefaultThemeProvider>)
 }
 

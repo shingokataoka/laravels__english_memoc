@@ -72,6 +72,13 @@ export default function Index({auth}) {
                 このセリフを練習する。
             </p>
 
+            <h2 css={h2Css}>AIと英会話もできる</h2>
+            <p>
+                このwebアプリ内で<span css={css`text-decoration:underline;`}>「AIと英会話」</span>ができます。<br />
+                これで実践に近い練習もできます。<br />
+                覚えたあとのアウトプットにも使えます。
+            </p>
+
             <hr />
 
             <h2 css={h2Css}>例：朝の会話を覚えたい場合</h2>
@@ -90,7 +97,7 @@ export default function Index({auth}) {
             <p>
                 "Good morning."の音を聞く。<br />
                 なるべく同じ音で言えるまで練習する。<br />
-                音がなくても言えればOK.<br />
+                音を聞かなくても言えればOK.<br />
             </p>
 
             <h2 css={h2Css}>4.言いたい意味の感情を伴って言う練習をする</h2>

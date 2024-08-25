@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             $insertRow[] = [
                 'name' => "user{$i}",
                 'email' => "user{$i}@test.com",
+                'email_verified_at' => $datetimeNowString,
                 'password' => Hash::make("user{$i}{$i}{$i}{$i}"),
                 'created_at' => $datetimeNowString,
             ];

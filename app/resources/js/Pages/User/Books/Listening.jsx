@@ -8,10 +8,20 @@ import BooksComponent from '@/Components/BooksComponent'
 import DefaultSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/DefaultSpeakingIconButton'
 import SlowSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/SlowSpeakingIconButton'
 
+import CommonProvider from '@/Components/CommonProvider'
+
+
 
 /** @jsxImportSource @emotion/react */
 export default function Listening({auth, bookOrWords, parentBookId}) {
     const [voices, setVoices] = useState([])
+
+    const [upBalloonProps, setUpBalloonProps] = useState({
+        showStatus: 'none',   // 表示管理。'none'、'processing'=表示準備中(座標計算など)、'show'
+        x: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        y: 0,   // 絶対座標。表示位置。矢印の先端がこの位置になる。
+        jsx: <>バルーンの中身JSX</>,  // バルーン内に表示するSJXを指定。
+    })
 
     // 最初の順指定='selectSort'、普通='normal'、正解='correct'、不正解='incorrect'。
     // 全ての問題終了='finished'
@@ -99,7 +109,8 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
 
 
 
-    return (<BooksComponent
+    return (<CommonProvider>
+    <BooksComponent
         auth={auth}
         bookOrWords={bookOrWords}
         parentBookId={parentBookId}
@@ -122,6 +133,8 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
         exampleAnswerLabel={exampleAnswerLabel}
         setExampleAnswerLabel={setExampleAnswerLabel}
         answerInJapanese={answerInJapanese}
+        upBalloonProps={upBalloonProps}
+        setUpBalloonProps={setUpBalloonProps}
     >
 
                     {/* // 声再生アイコンを表示。 */}
@@ -144,5 +157,7 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
                             </div>
                         )}
                     </div>
-    </BooksComponent>)
+
+    </BooksComponent>
+    </CommonProvider>)
 }

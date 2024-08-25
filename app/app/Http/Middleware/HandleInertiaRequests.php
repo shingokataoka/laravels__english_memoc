@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
+use App\Models\EnJaTranslation;
+
+
 class HandleInertiaRequests extends Middleware
 {
     /**
@@ -46,7 +49,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'config' => [
                 'name' => config('app.name'),
-            ]
+            ],
+            'enTranslations' => EnJaTranslation::get()->keyBy('lower_en'),
         ];
     }
 }

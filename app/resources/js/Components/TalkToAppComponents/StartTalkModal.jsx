@@ -1,6 +1,6 @@
 import { useState, useRef, useLayoutEffect } from 'react'
 import {css} from '@emotion/react'
-import { isDark } from '@/Components/DefaultThemeProvider'
+import { isDark, defaultTheme } from '@/Components/DefaultThemeProvider'
 
 import { Button } from '@mui/material'
 
@@ -11,7 +11,7 @@ import { Button } from '@mui/material'
 export default function StartTalkModal({
     setIsOnBgm,
 }) {
-
+    const palette = defaultTheme().palette
     const isLight = !isDark()
 
     // このコンポーネント自体の表示状態。
@@ -65,7 +65,7 @@ export default function StartTalkModal({
     return (<div
         ref={currentDomRef}
         css={css`
-            background: #000;
+            background: ${isLight? palette.bgMain : '#000'};
             position: fixed;
             z-index: 10000;
             width: 100%;
@@ -77,8 +77,8 @@ export default function StartTalkModal({
     >
         <div css={css`
             border-radius: 6px;
-            border: 1px ${isLight? 'red' : '#888' } solid;
-            background: #333;
+            border: 1px ${isLight? palette.bgBack : '#888' } solid;
+            background: ${isLight? palette.bgSub : '#333'};
             width: 100%;
             height: 100%;
             max-width: 400px;

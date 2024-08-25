@@ -1,8 +1,13 @@
 import { LoadingButton } from "@mui/lab"
 import { css } from "@mui/material"
+import {defaultTheme} from '@/Components/DefaultThemeProvider'
 
 import { Button } from "@mui/material"
 import { useLayoutEffect, useRef, useState } from "react"
+
+
+
+
 
 /** @jsxImportSource @emotion/react */
 export default function AddNewBookOrWordButton({
@@ -15,6 +20,8 @@ export default function AddNewBookOrWordButton({
     /* 0 or 1 */ addTypeIsBook,
     /* useRefの配列で、book_or_wordsのレコード群 */ bookOrWords,
 }) {
+    const palette = defaultTheme().palette
+
     const isFirstRenderRef = useRef(true)
     const word0DivRef = useRef(null)
     const word1DivRef = useRef(null)
@@ -33,6 +40,12 @@ export default function AddNewBookOrWordButton({
 
 
     const addBookOrWord = () => {
+        // bookOrWordsが15個以上なら追加できない表示をして、処理しない。
+        if (bookOrWords.length >= 15) {
+            alert('一つの本に追加できるのは15個までです。')
+            return
+        }
+
         setIsProcessing(true)
         setIsLoading(true)
         // 追加するレコードを作成。idは仮で0にしとく。
@@ -109,9 +122,24 @@ export default function AddNewBookOrWordButton({
         color='secondary'
         disabled={isProcessing}
         loading={isLoading}
+        // bookOrWordsが15個以上ならクリック時の波紋を非表示にする。
+        disableRipple={bookOrWords.length >= 15}
         css={css`
             text-transform: none;
             line-height: 1.3em;
+            ${/* bookOrWordsが15個以上ならdisabledな見た目にする。*/
+                (bookOrWords.length >= 15)
+                    ? `
+                        color: ${palette.text.disabled};
+                        border-color: ${palette.text.disabled};
+                        // hover時の色を消す。
+                        &:hover {
+                            background: none;
+                            border-color: ${palette.text.disabled};
+                        }
+                    `
+                    : ''
+            }
         `}
         onClick={ e => addBookOrWord() }
     >

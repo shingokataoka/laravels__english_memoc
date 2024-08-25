@@ -11,7 +11,11 @@ import { defaultTheme, isDark } from "@/Components/DefaultThemeProvider";
 
 
 /** @jsxImportSource @emotion/react */
-export default function Line({line}) {
+export default function Line({
+    line,
+    checkTranslations = false,
+    setCheckTranslations = null,
+}) {
 
     const palette = defaultTheme().palette
     const isLight = !isDark()
@@ -19,6 +23,8 @@ export default function Line({line}) {
     const {status, englishLine, japaneseLine} = line
 
     const {voices, apiVoice, upBalloonProps, setUpBalloonProps, showLineStatus, fetchApiStatus} = useContext(TalksLinesAreaContext)
+
+
 
     // 英語divのdom用のRef。
     const enDomRef = useRef(null)
@@ -85,8 +91,12 @@ export default function Line({line}) {
 
 
 
+
+
+
     // 初回のレンダリングを管理。
     useEffect(() => {
+        // 初回レンダリングなら、「初回レンダリングじゃない」にする。
         if (isFirstRender === true) setIsFirstRender(false)
     }, [isFirstRender])
 
@@ -120,6 +130,8 @@ export default function Line({line}) {
                     setUpBalloonProps={setUpBalloonProps}
                     text={englishLine}
                     voices={voices}
+                    checkTranslations={checkTranslations}
+                    setCheckTranslations={setCheckTranslations}
                 />
             </div>
 

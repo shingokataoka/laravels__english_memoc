@@ -8,13 +8,13 @@ import TalkInput from '@/Components/TalkToInputFooterComponents/TalkInput'
 import JaToEnInput from '@/Components/TalkToInputFooterComponents/JaToEnInput'
 import EnToJaInput from '@/Components/TalkToInputFooterComponents/EnToJaInput'
 import Show3Button from "./Show3Button"
+import AiLoadingBer from '../TalkToInputFooterComponents/AiLoadingBer'
 
 
 import {Button} from '@mui/material'
 
 import { TalkToInputFooterContext } from '@/Pages/User/TalkToApp'
-import AiLoadingBer from '../TalkToInputFooterComponents/AiLoadingBer'
-
+import {CommonContext} from '@/Components/CommonProvider'
 
 
 
@@ -26,6 +26,9 @@ export default function TalkToInputFooter({
     const palette = defaultTheme().palette
     const isLight = !isDark()
 
+    // 初回レンダリングならtrue。 初回レンダリング以外ならfalse。
+    const [isFirstRender, setIsFirstRender] = useState(true)
+
     // 「送信する」ボタンのdisabledを管理。
     const [disabled, setDisabled] = useState(false)
 
@@ -36,12 +39,18 @@ export default function TalkToInputFooter({
         submitLine1: '',
         userVoiceObj: new SpeechSynthesisUtterance(),    // ユーザーの声のオブジェクト。
         apiVoiceObj: new SpeechSynthesisUtterance(),    // アプリの声のオブジェクト。
+        // AIからの返信セリフを入れる変数。
+        reAiLine: null,
     })
     // 上記のエイリアス。
     const data = dataRef.current
 
+
+    // useContextでCommonProvider.jsxから 値を受け取る。
+    const {SHOW_STATUS} = useContext(CommonContext)
+
     // useContextで TalkToInputFooter.jsxから 値を受け取る。
-    const {voices, userVoice, apiVoice, inputValue, setInputValue, lines, setLinesAnimateStatus, fetchApiStatus, setFetchApiStatus, showLineStatus, setShowLineStatus} = useContext(TalkToInputFooterContext)
+    const {voices, userVoice, apiVoice, inputValue, setInputValue, lines, setLinesAnimateStatus, fetchApiStatus, setFetchApiStatus, showLineStatus, setShowLineStatus, checkTranslations, setCheckTranslations} = useContext(TalkToInputFooterContext)
 
 
 
@@ -133,7 +142,7 @@ export default function TalkToInputFooter({
 
 
 
-    // fetchApiStatusが変わった時の処理。
+    // fetchApiStatusが'processing'に変わった時の処理。
     // 下記のuseEffect用の非同期の関数。
     const fetchApiTalk = async () => {
         // まず「送信する」ボタンをdisabledにする。
@@ -161,8 +170,8 @@ export default function TalkToInputFooter({
                 englishLine: res.data.result,
                 japaneseLine: res.data.jaResult,
             }
-            // linesに入れる。
-            lines[2] = newLine
+            // lines[2]に入れる前に一時変数に保管。
+            data.reAiLine = newLine
 
         // axios通信にエラーがあった場合。
         } catch(error) {
@@ -173,29 +182,53 @@ export default function TalkToInputFooter({
                 englishLine: 'ごめんエラーが出ちゃった。もう一回お願い。',
                 japaneseLine: '',
             }
-            // linesに入れる。
-            lines[2] = newLine
+            // lines[2]に入れる前に一時変数に保管。
+            data.reAiLine = newLine
 
         }
-        // data.linesが変わったに設定。
-        setLinesAnimateStatus(value => {
-            // fetchApiStatusを'none'に戻す。
-            setFetchApiStatus('none')
-            return 'playing'
-        })
+        // fetchApiStatusを'none'に戻す。
+        setFetchApiStatus('none')
 
     }
 
 
-    // fetchApiStatusが変わった時の処理。
+    // fetchApiStatusかcheckTranslationsが変わった時の処理。
     useEffect( () => {
+
         // 'processing'つまり通信中での処理。
         if (fetchApiStatus === 'processing') fetchApiTalk()
-
-        // 処理中じゃない通常状態なら、disabled=false
-        if (fetchApiStatus === 'none') { setDisabled(false) }
     }, [fetchApiStatus])
 
+
+
+    // 処理中じゃない通常状態になった時の処理。
+    // （つまりAIからの返答セリフ待ちではない かつ、ない単語の辞書待ちででもない状態になったら。）
+    useEffect(() => {
+        // 初回レンダリング時なら処理しない。
+        if (isFirstRender === true) return
+
+        if (
+            fetchApiStatus === 'none'
+            && checkTranslations === false
+            && data.reAiLine !== null
+        ) {
+            // lines[2] にAIから返答セリフを入れる。
+            lines[2] = data.reAiLine
+            data.reAiLine = null
+
+            // ユーザーセリフ「送信」ボタンのdisabledを解除する。
+            setDisabled(false)
+            // セリフのフェードインとアウトのアニメーションを実行。
+            setLinesAnimateStatus('playing')
+        }
+    }, [fetchApiStatus, checkTranslations])
+
+
+
+    // 初回レンダリングかを管理。
+    useEffect(() => {
+        if (isFirstRender === true) setIsFirstRender(false)
+    }, [isFirstRender])
 
 
 
@@ -280,7 +313,7 @@ export default function TalkToInputFooter({
                 <JaToEnInput />
             </div>
             {/* 英語の単語などの日本語を調べれる入力欄。 */}
-            <EnToJaInput />
+            {/* <EnToJaInput /> */}
         </div>
 
     </div>)

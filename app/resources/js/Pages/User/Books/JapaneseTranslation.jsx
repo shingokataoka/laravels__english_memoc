@@ -7,7 +7,7 @@ import DefaultSpeakingIconButton from '@/Components/MainPageParts/BookOrWordPart
 import SlowSpeakingIconButton from '@/Components/MainPageParts/BookOrWordParts/SlowSpeakingIconButton'
 
 import TranslationButtonsArea from '@/Components/TranslationButtonsArea'
-
+import CommonProvider from '@/Components/CommonProvider'
 
 
 
@@ -144,7 +144,8 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
 
 
 
-    return (<BooksComponent
+    return (<CommonProvider>
+    <BooksComponent
         auth={auth}
         bookOrWords={bookOrWords}
         parentBookId={parentBookId}
@@ -192,18 +193,12 @@ export default function Listening({auth, bookOrWords, parentBookId}) {
 
         {/* 英文の各英単語の和訳表示ボタン */}
         <div css={css` flex: 1; `}>
-            {/* <HighlightSpellError
-                questionIndex={question.id}
-                upBalloonProps={upBalloonProps}
-                setUpBalloonProps={setUpBalloonProps}
-                text={question.english_word}
-                voices={voices}
-            /> */}
             <TranslationButtonsArea
                 setUpBalloonProps={setUpBalloonProps}
                 text={question.english_word}
                 voices={voices}
             />
         </div>
-    </BooksComponent>)
+    </BooksComponent>
+    </CommonProvider>)
 }

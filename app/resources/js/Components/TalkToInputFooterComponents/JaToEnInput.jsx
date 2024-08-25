@@ -1,5 +1,5 @@
 import {css} from '@emotion/react'
-import { TrendingUpOutlined } from '@mui/icons-material';
+import {isDark} from '@/Components/DefaultThemeProvider'
 
 import { LoadingButton } from "@mui/lab";
 import { TextField } from "@mui/material";
@@ -11,6 +11,8 @@ import { useState } from 'react';
 /** @jsxImportSource @emotion/react */
 export default function JaToEnInput()
 {
+    const isLight = !isDark()
+
 
     // 「和単語を入力」の入力文字。
     const [jaInput, setJaInput] = useState('')
@@ -61,6 +63,13 @@ export default function JaToEnInput()
 
 
 
+    // 「英訳を表示」をフォーカス時の処理。
+    const answerOnFocus = e => {
+        e.target.select()
+    }
+
+
+
 
 
     return(<>
@@ -78,6 +87,9 @@ export default function JaToEnInput()
                 inputProps={{
                     maxLength: 45,
                 }}
+                css={css`
+                    ${isLight? 'background: #e7e7e7;' : ''}
+                `}
             />
 
             <LoadingButton
@@ -98,6 +110,12 @@ export default function JaToEnInput()
                 placeholder='英訳を表示'
                 readOnly={true}
                 value={enText}
+                onFocus={answerOnFocus}
+                css={css`
+                    & textarea{
+                        box-shadow: none !important;
+                    }
+                `}
             />
         </form>
     </>)

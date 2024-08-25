@@ -1,5 +1,5 @@
 import {usePage} from '@inertiajs/react'
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import  { DefaultThemeProvider }  from "@/Components/DefaultThemeProvider"
 
@@ -8,12 +8,16 @@ import AllPageComponent from '@/Components/AllPageComponent'
 import TopPageHeader from '@/Components/MainPageComponents/TopPageHeader'
 import BookPageMain from '@/Components/MainPageComponents/BookPageMain'
 
+// 全てで共通の値 一覧のjsx。
+import CommonProvider from '@/Components/CommonProvider'
+
 
 
 
 
 /** @jsxImportSource @emotion/react */
 export default function TopPage({auth, bookOrWords}){
+
     const userSetting = usePage().props.user_setting
 
     const [isEnglishFirstPosition, setIsEnglishFirstPosition] = useState(
@@ -29,6 +33,7 @@ export default function TopPage({auth, bookOrWords}){
 
 
     return (<DefaultThemeProvider>
+    <CommonProvider>
         <AllPageComponent />
 
         <TopPageHeader
@@ -48,5 +53,6 @@ export default function TopPage({auth, bookOrWords}){
             setIsProcessing={setIsProcessing}
         />
 
+    </CommonProvider>
     </DefaultThemeProvider>)
 }

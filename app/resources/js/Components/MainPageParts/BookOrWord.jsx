@@ -389,6 +389,11 @@ const EnglishTextField = ({
     })
 
 
+    // TranslationButtonArea.jsxに渡すuseState変数。
+    // true=ない英単語があるかチェックして、あればAPIから取得してDB保存をONなら。
+    const [checkTranslations, setCheckTranslations] = useState(false)
+
+
 
     // TextFiledにフォーカス時の処理。
     const handleFocus = e => {
@@ -404,6 +409,9 @@ const EnglishTextField = ({
         setPenIconColor('#29b6f6')
         setIsShowSpellJsx(true)
         setIsShowTextField(false)
+
+        // ない英単語があるかチェックして、あればAPIから取得してDB保存をON。
+        setCheckTranslations(true)
     }
 
 
@@ -485,6 +493,7 @@ const EnglishTextField = ({
             value={english_word}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            disabled={checkTranslations}
             onChange={ e => {
                 const EnOrJaKey='english_word'
                 onChangeWord(e.target.value, EnOrJaKey)
@@ -524,9 +533,19 @@ const EnglishTextField = ({
                     color: ${penIconColor};
                     border: 1px ${penIconColor} solid;
 
+                    ${(checkTranslations)
+                        // 英単語のチェック中のカラー。
+                        ? `
+                            color: ${palette.text.disabled};
+                            border-color: ${palette.text.disabled};
+                        `
+                        : ''}
                 `}
             >
-                <RateReviewIcon css={css` color: ${penIconColor}; `} />
+                <RateReviewIcon css={css`
+                    color: ${penIconColor};
+                    ${(checkTranslations)? `color: ${palette.text.disabled};` : ''}
+                `} />
                 <span> 英語{inputLabelText}</span>
             </label>
 
@@ -556,6 +575,8 @@ const EnglishTextField = ({
                     setUpBalloonProps={setUpBalloonProps}
                     text={english_word}
                     voices={voices}
+                    checkTranslations={checkTranslations}
+                    setCheckTranslations={setCheckTranslations}
                 />
             </div>
         </div>

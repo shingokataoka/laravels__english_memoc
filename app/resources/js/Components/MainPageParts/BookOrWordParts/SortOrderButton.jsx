@@ -18,7 +18,7 @@ export default function SortOrderButton(props) {
 
     const activeBgColor = isDark()? colors.grey[400] : colors.grey[100]
     const defaultBgColor = isDark()? colors.grey[300] : colors.grey[200]
-    const fontColor = isDark()? colors.grey[500] : colors.grey[200]
+    const fontColor = isDark()? colors.grey[500] : colors.grey[400]
 
     const arrowRotate = (direction === 'down')? '90deg' : '-90deg'
 
@@ -108,7 +108,6 @@ export default function SortOrderButton(props) {
             css={css`
                 transform: rotate(${arrowRotate});
                 color: ${fontColor};
-
             `}
         />
     </button>)

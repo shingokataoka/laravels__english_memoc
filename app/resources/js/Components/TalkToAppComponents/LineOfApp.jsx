@@ -16,7 +16,9 @@ export default function LineOfApp({
     //     englishLine: `英語セリフ`,
     //     japaneseLine: '日本語セリフ'
     // },
-    line
+    line,
+    checkTranslations = false,
+    setCheckTranslations = null,
 }) {
 
     const palette = defaultTheme().palette
@@ -57,7 +59,11 @@ export default function LineOfApp({
                 padding: 12px;
             `}>
                 {/* セリフ。 */}
-                <Line line={line} />
+                <Line
+                    line={line}
+                    checkTranslations={checkTranslations}
+                    setCheckTranslations={setCheckTranslations}
+                />
             </div>
 
         </div>

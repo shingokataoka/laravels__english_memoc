@@ -19,7 +19,8 @@ class UserSettingSeeder extends Seeder
             $insertRows[] = [
                 'user_id' => $i,
                 'default_voice_name' => 'Google Us English',
-                'is_dark' => ($i === 1)? true : mt_rand(0, 1),
+                'is_show_all_answers' => 1,
+                'is_dark' => ($i === 1)? true : 0,
             ];
         }
 

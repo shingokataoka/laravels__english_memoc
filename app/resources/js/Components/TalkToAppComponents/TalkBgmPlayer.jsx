@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 
 
 import {css} from '@emotion/react'
-import { defaultTheme } from '@/Components/DefaultThemeProvider';
+import { defaultTheme, isDark } from '@/Components/DefaultThemeProvider';
 
 
 import PauseIcon from '@mui/icons-material/Pause';
@@ -21,6 +21,7 @@ import { TalkToHeaderContext } from '@/Pages/User/TalkToApp';
 /**  @jsxImportSource @emotion/react */
 export default function TalkBgmPlayer() {
     const palette = defaultTheme().palette
+    const isLight = !isDark()
 
     // TalkToHeader.jsx以下のuseContextの値を受け取る。
     const {isOnBgm} = useContext(TalkToHeaderContext)
@@ -77,11 +78,12 @@ export default function TalkBgmPlayer() {
         align-items: center;
         justify-content: center;
         gap: 4px;
-        background: #888;
+        background: ${isLight? '#dadada' : '#888'};
+        color: ${isLight? '#aaa' : palette.text.primary};
         border-radius: 18px;
         padding: 0 12px;
         & > *:hover {
-            background: #999;
+            background: ${isLight? '#ccc' : '#999'};
         }
     `}>
         {/* // 実際にオーディオの操作・処理を行う。 */}

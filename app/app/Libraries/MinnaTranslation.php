@@ -117,4 +117,7 @@ class MinnaTranslation
         );
         return $englishText;
     }
+
+
+
 }

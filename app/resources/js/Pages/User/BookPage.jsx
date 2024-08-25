@@ -9,7 +9,7 @@ import AllPageComponent from '@/Components/AllPageComponent'
 import BookPageHeader from '@/Components/MainPageComponents/BookPageHeader'
 import BookPageMain from '@/Components/MainPageComponents/BookPageMain'
 
-
+import CommonProvider from '@/Components/CommonProvider'
 
 
 
@@ -30,6 +30,8 @@ export default function BookPage({auth, book, bookOrWords, booksOfBreadCrumb}){
 
 
     return (<DefaultThemeProvider>
+    <CommonProvider>
+
         <AllPageComponent />
             <Head title={ booksOfBreadCrumb[booksOfBreadCrumb.length-1].japanese_word } />
 
@@ -52,5 +54,6 @@ export default function BookPage({auth, book, bookOrWords, booksOfBreadCrumb}){
             setIsProcessing={setIsProcessing}
         />
 
+    </CommonProvider>
     </DefaultThemeProvider>)
 }
