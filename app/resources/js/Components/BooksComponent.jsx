@@ -61,10 +61,12 @@ export default function BooksComponent({
 
 
 
-    // 親本へのURL（なければトップへのURL）。
-    const parentUrl =(parentBookId === null || parentBookId >= 1)
-        ? route('main.top')
-        : route('main.book', {book_id: parentBookId})
+    // 親本がなければトップへのURL。
+    let parentUrl = ''
+    if (parentBookId === null) { parentUrl = route('main.top') }
+    else if (parentBookId <= 1) { parentUrl = route('main.top') }
+    // 親本があれば親本のURLにする。
+    else { parentUrl = route('main.book', {book_id: parentBookId}) }
 
     // フェードイン・アウト時の片往復のミリ秒時間
     const fadeMSec = 250
@@ -175,29 +177,29 @@ export default function BooksComponent({
             // 最後に表示のキャラのセリフとナレーターのセリフのパターン。
             let lines = [
                 [<>おつかれさま<br />また明日ね！</>, '期待しているようです。'],
-                [<>今日もがんばったね<br />スィーユゥ</>, 'どうやら「See you（またね）」と言っているようです。'],
-                ['やったね！', 'ハグしたいようです。'],
+                [<>今日もがんばったね</>, 'See you（またね）'],
+                ['やったね！', ''],
 
                 ['今日もいいね！', 'また良い一日でありますように。'],
-                ['やりきって素晴らしい', '明日も待っているようです。'],
-                ['おつかれさま！休憩も忘れないでね', '実は眠りたいようです。'],
+                ['やりきって素晴らしい', '明日も待っているよ♪'],
+                ['おつかれさま！休憩も忘れないでね', ''],
 
                 [<>おつかれさま<br />Happy!</>, 'すごいね！ おつかれさま'],
                 [<>今日もがんばったね<br />Good!</>, 'Nice!'],
-                [<>やったね<br />Yay!</>, ],
+                [<>やったね<br />Yay!</>, ''],
                 [<>It's cool!</>, ''],
                 [<>You are very good!</>, ''],
 
-                [<>イヤッホーィ！<br />wonderful!</>, '羽ばたくほどの英語力！'],
+                [<>イヤッホーィ！<br />wonderful!</>, '羽ばたけ英語力！'],
                 [<>良い風だ〜</>, 'Nice wind! 良い風が吹いている。'],
-                [<>はばたくのさ〜♪</>, 'We can fly!'],
+                [<>もうはばたく！</>, 'We can fly!'],
             ]
             // 満点ならこっちのセリフのパターン。
             if (incorrectNumberRef.current === 0) {
                 lines = [
                     [<>おぉ..！<br />ありがとう</>, <>You are perfect! Amazing!</>],
-                    [<>余は満足じゃ☆</>, <>超竜形態は快適なようです。</>],
-                    [<>英語みなぎり幸福パワー！</>, <>あなたの英語力が幸せを与えました。</>],
+                    [<>余は満足じゃ☆</>, <>実に素晴らしい！</>],
+                    [<>英語みなぎり幸福パワー！</>, <>You are very nice!</>],
                 ]
             }
 

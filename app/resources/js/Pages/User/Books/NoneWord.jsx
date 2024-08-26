@@ -27,7 +27,7 @@ export default function NoneWord({backUrl}) {
             height: 100vh;
         `}
     >
-        <div>まだ本の中身がありません。</div>
+        <div>まだ本の中身にセリフがありません。</div>
         <Button
             variant="contained"
             color="secondary"

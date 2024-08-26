@@ -18,14 +18,16 @@ class BookController extends Controller
         $this->middleware( function ($request, $next){
             $book_id = request()->route()->originalParameters()['book_id'];
             // 本の中身のセリフ数を取得。
-            $bookOrWordsCount = BookOrWord::where('book_id', '=', $book_id)->count();
+            $bookOrWordsCount = BookOrWord::where('book_id', '=', $book_id)
+                ->where('type_is_book', '=', 0)
+                ->count();
             // この本の親本のidを取得。
             $parentBookId = (int)BookOrWord::find($book_id)->book_id;
             // 親本IDが1より上なら、親本のURLを取得。
             if ($parentBookId > 1) { $backUrl = route('main.book', ["book_id" => $parentBookId]); }
             // 親本IDが1ならトップのメインページのURLを取得。
             else { $backUrl = route('main.top'); }
-            // セリフがなければ、「まだ本の中身がありません。」なJSXをレンダリング。
+            // セリフがなければ、「まだ本の中身にセリフがありません。」なJSXをレンダリング。
             // 「戻る」用のURLとして$backUrlを渡す。
             if ($bookOrWordsCount === 0) return Inertia::render('User/Books/NoneWord', compact('backUrl'));
 

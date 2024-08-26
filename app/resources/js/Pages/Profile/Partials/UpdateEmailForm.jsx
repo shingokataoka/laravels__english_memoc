@@ -8,7 +8,6 @@ import { useForm, usePage } from '@inertiajs/react';
 import {css} from '@emotion/react'
 import { defaultTheme } from '@/Components/DefaultThemeProvider';
 
-import Nl2br from '@/Functions/Nl2br';
 import { useEffect, useState } from 'react';
 
 
@@ -107,7 +106,7 @@ export default function UpdateEmailForm({ mustVerifyEmail, status, className = '
                     font-weight: bold;
                     font-size: 0.87rem;
                 `}>
-                    { Nl2br(flashMessage) }
+                    { flashMessage }
                 </div> }
 
 

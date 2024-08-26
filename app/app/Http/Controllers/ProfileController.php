@@ -45,11 +45,18 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = $request->user();
+
+        // user1(user_id=1)は削除禁止だから弾く。
+        // 理由はbook_id=1が消えてしまうから。
+        if ($user->id === 1) {
+            dd('user1(user_id=1)は削除禁止。');
+        }
+
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
-        $user = $request->user();
 
         Auth::logout();
 
