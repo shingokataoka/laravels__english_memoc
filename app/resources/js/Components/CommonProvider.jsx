@@ -1,12 +1,12 @@
-import {useRef, createContext} from 'react'
+import {useState, useEffect, useRef, createContext} from 'react'
 import {usePage} from '@inertiajs/react'
-
+import {css} from '@emotion/react'
 // jsonファイルの辞書データ。
-import enTranslations from '@/../../public/dictionaries/enTranslations.json'
+// import enTranslations from '@/../../public/dictionaries/enTranslations.json'
 
 
 
-
+/** @jsxImportSource @emotion/react */
 export const CommonContext = createContext()
 
 
@@ -22,17 +22,57 @@ export default function CommonProvider({
     children,
 }) {
 
+    const [isFirstRender, setIsFirstRender] = useState(true)
+
+    // 辞書の読み込みが完了したか。
+    const [loadedEnTranslations, setLoadedEnTranslations] = useState(false)
+
+    // 上記を変数として保存するuseRef。
+    const valsRef = useRef({
+        enTranslations: {},
+    })
+
     // DBからの辞書データ。
     const dbEnTranslations = usePage().props.enTranslations
+
+
+    // 辞書jsonデータを入れておく変数。
+    const jsonEnTranslations = useRef(null)
+
+
+
+    // 辞書のjsonファイルを動的にインポート。
+    // npmrun build時に500MB超える防止と、パフォーマンス低下を防ぐため。
+    useEffect( () => {
+        // 初回レンダリング時以外なら処理しない。
+        if (isFirstRender === false) return
+
+        // 辞書のjsonファイルを動的にインポート。
+        import('@/../../public/dictionaries/enTranslations.json')
+        .then(jsonData => {
+            // jsonファイルの辞書データを取得。
+            jsonEnTranslations.current = jsonData
+            // 変数にjsonのとDBの辞書を入れる。
+            vals.enTranslations = {
+                ...jsonEnTranslations.current,
+                ...dbEnTranslations
+            }
+
+            // 辞書読み込み済にする。
+            setLoadedEnTranslations(true)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }, [isFirstRender])
+
+
+
 
 
 
     // --- 変数 ---
 
-    // 上記を変数として保存するuseRef。
-    const valsRef = useRef({
-        enTranslations: {...enTranslations, ...dbEnTranslations},
-    })
     // 上記useRefのエイリアス。
     const vals = valsRef.current
 
@@ -56,14 +96,32 @@ export default function CommonProvider({
 
 
 
-
-
-
     // 共有化で渡す値 一覧。
-    const commonValues = {vals, SHOW_STATUS, }
+    const commonValues = {loadedEnTranslations, vals, SHOW_STATUS, }
+
+
+
+    // 初回レンダリング済みにする。
+    useEffect( () => {
+        // 初回レンダリングなら初回レンダリング以外にする。
+        if (isFirstRender === true) setIsFirstRender(false)
+    }, [isFirstRender])
+
+
+
+
+    // 辞書読み込みが終わっていないなら、レンダリングしない。
+    // if ( Object(vals.enTranslations).length < 30000 ) return
+
+
+
 
     return (<CommonContext.Provider value={commonValues}>
-        {children}
+        <div css={css`
+            ${(loadedEnTranslations === false)? 'opacity: 0;' : ''}
+        `}>
+            {children}
+        </div>
     </CommonContext.Provider>)
 
 }

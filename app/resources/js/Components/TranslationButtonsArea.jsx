@@ -67,7 +67,6 @@ export default function TranslationButtonsArea({
     }
 
 
-
     // テキストを分割して配列にする（'とアルファベット以外の文字で区切る）。
     const tmpWords = text.split(/([^'’a-zA-Z0-9é])/g)
     const tmpWords2 = tmpWords.filter(word => word !== '')
