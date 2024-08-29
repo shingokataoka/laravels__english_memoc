@@ -242,7 +242,7 @@ const BookOrWord = React.memo( forwardRef( ({isEnglishFirstPosition, isShowAllAn
                 css={LinkButtonCss}>英訳</Button>
                 <Button variant="outlined" color="warning" component={Link}
                     href={route('book.listening', {book_id: bookOrWord.id})}
-                css={LinkButtonCss}>聞き取り</Button>
+                css={LinkButtonCss}>聴き取り</Button>
             </Stack>)
             // 声再生アイコンを表示。
             : <div>

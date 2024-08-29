@@ -69,7 +69,7 @@ class BookController extends Controller
 
 
 
-    // 本の中身を聞き取り英語にしていく問題回答するページ。
+    // 本の中身を聴き取り英語にしていく問題回答するページ。
     public function listening($book_id)
     {
         // 本の中身を取得する。
