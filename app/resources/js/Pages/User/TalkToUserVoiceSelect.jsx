@@ -83,7 +83,9 @@ export default function TalkToUserSelectVoice({
                     flex-direction: column;
                     gap: 12px;
                 `}
-            >{ voices.map((row, index) => (
+            >{ voices.map((row, index) => {
+                if (row === null) return ''
+                return (
                 <label
                     key={index}
                     onClick={e => setSelectIndex(index)}
@@ -104,8 +106,8 @@ export default function TalkToUserSelectVoice({
                     />
 
                 </label>
-
-            )) }</div>
+                )
+            }) }</div>
 
             {/* 決定ボタン。 */}
             <Button

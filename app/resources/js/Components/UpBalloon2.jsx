@@ -191,7 +191,7 @@ const Balloon = ({
     const clickHideUpBalloon = () => {
         // 英単語にホバーしているなら処理しない。
         if (hoverWordIndex === upBalloonProps.wordIndex) return
-        // console.log('発動')
+
         // バルーンにホバーしているなら処理しない。
         if (isBalloonHover === true) return
 

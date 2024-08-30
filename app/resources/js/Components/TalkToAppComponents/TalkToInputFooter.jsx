@@ -128,6 +128,7 @@ export default function TalkToInputFooter({
     useEffect( () => {
         // まだないなら処理しない。
         if (userVoice === undefined) return
+        if (userVoice === null) return
 
         // ユーザーの声のオブジェクトを用意。
         data.userVoiceObj.voice = userVoice.voice
@@ -137,7 +138,7 @@ export default function TalkToInputFooter({
         data.apiVoiceObj.voice = apiVoice.voice
         data.apiVoiceObj.pitch =(apiVoice.voicePitch === null)? 1 : apiVoice.voicePitch
         data.apiVoiceObj.lang = 'en-US'
-    }, [voices.length])
+    }, [voices])
 
 
 

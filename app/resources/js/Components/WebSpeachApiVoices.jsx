@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useRef, useState, useEffect } from "react"
 
 
 
@@ -10,28 +10,38 @@ export default function WebSpeachApiVoices({
     /* useStateの空オブジェクト{} */ voices,
     /* 上記apiVoicesのセットuseState */ setVoices,
 }){
-    const [isFirstRender, setIsFirstRender] = useState(true)
 
-    const [apiVoices, setApiVoices] = useState({})
+    // web speech APIから取得したvoiceを全て入れる配列。
+    const [fetchVoices, setFetchVoices] = useState([])
+
+    // 変数。
+    const valsRef = useRef({
+        // アプリに渡す声を入れる配列。
+        apiVoices: [null, null, null, null],
+        // 上記apiVoicesのどこに入れるかのインデックス。
+        apiVoicesIndex: 0,
+        // fetchVoicesのnameを入れておく配列。
+        fetchVoicesNames: [],
+        // fetchVoicesの数を入れておく変数。
+        fetchVoicesLength: fetchVoices.length,
+    })
+    // 上記のエイリアス。
+    const vals = valsRef.current
 
 
 
-    // 初回、voicesが{}なら[]null, null, null, null]にする。
-    useEffect( () => {
-        if (voices.length === 0) setApiVoices([null, null, null, null])
-    }, [])
-
-
-
-    // web speach apiの英語の声一覧を取得する処理の関数。
+    // web speach apiの英語の声一覧を取得するしてfetchVoicesに入れる関数。
     const appendVoices = () => {
-        const tmpApiVoices = speechSynthesis.getVoices()
-        const tmpVoices = {}
-        tmpApiVoices.map(voice => {
-            if (voice.lang === 'en-US') tmpVoices[voice.name] = voice
+        const resultVoices = speechSynthesis.getVoices()
+        const tmpVoices = [...fetchVoices]
+        resultVoices.map(voice => {
+            if (voice.name in vals.fetchVoicesNames) return
+            if (voice.lang === 'en-US') tmpVoices.push(voice)
         })
-        setApiVoices(tmpVoices)
+        // apiからの声一覧をfetchVoicesにセットする。
+        setFetchVoices([...tmpVoices])
     }
+
 
 
     // web上から声一覧を読み込む。
@@ -46,40 +56,74 @@ export default function WebSpeachApiVoices({
 
 
 
-    useEffect( () => {
-
+    // 引数のvoiceをapiVoicesに追加する関数。
+    const addApiVoices = (voice, voicePitch = null ) => {
         const colors = ['green', 'blue', 'indigo', 'purple']
-        const tmpVoices = [...voices]
-        let tmpIndex = 2;
 
-        const pushVoice = (voiceName) => {
-            if ( !(voiceName in apiVoices) ) return
-            if( tmpIndex >= 4) tmpIndex = 0
+        // インデックスが4以上なら0に戻す。
+        if( vals.apiVoicesIndex >= 4) vals.apiVoicesIndex = 0
 
-            const row = {
-                voice: apiVoices[voiceName],
-                voicePitch: null,
-                color: colors[tmpIndex],
-            }
-            tmpVoices[tmpIndex] = row
-            tmpIndex++
+        // vals.apiVoicesに入れる。
+        vals.apiVoices[vals.apiVoicesIndex] = {
+            name: voice.name,
+            voice: voice,
+            voicePitch: voicePitch,
+            color: colors[vals.apiVoicesIndex],
         }
 
-        // 初回レンダリング時のみ。isFirstRender
-        if (isFirstRender) {
-            // 最初にデフォの高い音を追加しておく。
-            tmpVoices[0] = {
-                voice: null,
-                voicePitch: 1.4,
-                color: colors[0],
+        // 入れたからインデックスを進める。
+        vals.apiVoicesIndex += 1
+    }
+
+
+
+    // 指定のnameの声があればapiVoicesに追加する関数。
+    const pushVoice = (voiceName) => {
+
+        // apiVoicesをループして、すでに同名の声があれば処理しない。
+        let voiceExists = false
+        vals.apiVoices.map(apiVoice => {
+            if (
+                apiVoice !== null
+                && apiVoice.name === voiceName
+            ) {
+                voiceExists = true;
+                return;
             }
-            // デフォルトの音も追加しておく。
-            tmpVoices[1] = {
-                voice: null,
-                voicePitch: null,
-                color: colors[1],
-            }
+        })
+        if (voiceExists === true) return
+
+        // fetchVoicesをループして、voiceNameのがあれば処理する。
+        for (let i=0; i < fetchVoices.length; i++) {
+            const fetchVoice = fetchVoices[i]
+
+            // 同名のfetchVoiceでないなら次に飛ばす。
+            if (fetchVoice.name !== voiceName) continue
+
+            // apiVoicesに入れる。
+            addApiVoices(fetchVoice)
+
+            // 入れたから処理を終了。
+            return
         }
+    }
+
+
+
+    // fetchVoicesが更新された時の処理。
+    useEffect( () => {
+        // 前回のfetchVoicesの数以下なら処理しない。
+        if (vals.fetchVoicesLength >= fetchVoices.length) return
+
+        // fetchVoices[0]があってapiVoices[0]がnullなら、apiVoicesの[0]と[1]にpitch違いで入れる。
+        if (fetchVoices.length >= 1 && vals.apiVoices[0] === null) {
+            // 最初に最初の'en-US'の高い音を追加しておく。
+            addApiVoices(fetchVoices[0], /* voicePitch */ 1.4)
+
+            // 次に最初の'en-US'の普通の高さの音も追加しておく。
+            addApiVoices(fetchVoices[0])
+        }
+
 
         // Macの良い声を取得し追加する。
         pushVoice('Aaron');
@@ -102,12 +146,14 @@ export default function WebSpeachApiVoices({
         pushVoice('Microsoft Christopher Online (Natural) - English (United States)');
         pushVoice('Microsoft Ana Online (Natural) - English (United States)');
 
-        setVoices(tmpVoices)
-    }, [apiVoices] )
+        // voicesに渡す事でアプリに渡す。
+        setVoices([...vals.apiVoices])
+
+        // 変数にfetchVoicesの数を入れておく。次回レンダリング時に声が増えてなければ処理しないための、判定用。
+        vals.fetchVoicesLength = fetchVoices.length
+    }, [fetchVoices] )
 
 
-
-    useEffect(() => { setIsFirstRender(false) }, [isFirstRender])
 
 
 }
