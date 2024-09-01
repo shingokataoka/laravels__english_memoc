@@ -98,7 +98,7 @@ export default function TalkToAppSelectVoice({
                     <DefaultSpeakingIconButton
                         englishWord={"This is AI's voice."}
                         voice={row.voice}
-                        voicePitch={1}
+                        voicePitch={row.voicePitch}
                         color={['blue', 'green', 'indigo', 'purple'][index]}
                     />
 

@@ -50,6 +50,7 @@ export default function TopPageHeader({
             <h1 css={css` font-weight: bold; `}>{ appName }</h1>
         </Stack>
 
+        {/* 「アプリと英会話する」リンクボタン */}
         <ApiTalkLinkButton />
 
 

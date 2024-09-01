@@ -110,11 +110,6 @@ export default function CommonProvider({
 
 
 
-    // 辞書読み込みが終わっていないなら、レンダリングしない。
-    // if ( Object(vals.enTranslations).length < 30000 ) return
-
-
-
 
     return (<CommonContext.Provider value={commonValues}>
         <div css={css`
