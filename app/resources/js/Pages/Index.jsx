@@ -121,7 +121,14 @@ export default function Index({auth}) {
 
                 これで「朝の会話」シーンの習得OKです。<br /><br />
 
-                英語<span css={css`text-decoration:underline;`}>習得者の多くが一人英会話で上達した</span>そうです。
+                英語<span css={css`text-decoration:underline;`}>習得者の多くが一人英会話で上達した</span>そうです。<br /><br />
+
+                使用環境は<span css={css`
+                    text-decoration: underline;
+                `}>「パソコンのMicrosoft Edgeブラウザ」がおすすめ</span>です。
+                <span css={css`
+                    text-decoration: underline;
+                `}>発音がとてもキレイでネイティブ</span>です。
             </p>
 
             <hr css={css` margin-top: 32px; `} />
