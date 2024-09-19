@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ChangeEmailController;
 
 use App\Http\Controllers\User\MainPageController;
+use App\Http\Controllers\User\BookOrWordController;
 use App\Http\Controllers\Api\ApiBookOrWordController;
 use App\Http\Controllers\Api\ApiUserSettingController;
 
@@ -61,6 +62,10 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
     Route::get('/top', [MainPageController::class, 'index'])
         ->name('main.top');
+
+    // ユーザーの「本棚全てを最初の状態に戻す」処理をする のルーティング。
+    Route::delete('/book_or_words/reset', [BookOrWordController::class, 'reset'])
+        ->name('book_or_words.reset');
 
     Route::get('/book/{book_id}', [MainPageController::class, 'show'])
         ->name('main.book');

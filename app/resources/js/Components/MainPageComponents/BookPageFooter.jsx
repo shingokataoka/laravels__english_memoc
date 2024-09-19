@@ -6,7 +6,7 @@ import AddNewBookOrWordButton from "@/Components/MainPageParts/FooterParts/AddNe
 import RearrangeButton from '@/Components/MainPageParts/FooterParts/RearrangeButton'
 import DeleteModeButton from '@/Components/MainPageParts/FooterParts/DeleteModeButton'
 import DarkModeToggleButton from '@/Components/MainPageParts/FooterParts/DarkModeToggleButton'
-
+import ResetBookOrWordsButton from '@/Components/MainPageParts/FooterParts/ResetBookOrWordsButton'
 
 
 /** @jsxImportSource @emotion/react */
@@ -68,6 +68,10 @@ export default function BookPageFooter({
         isEnglishFirstPosition={isEnglishFirstPosition}
         isProcessing={isProcessing}
         setIsProcessing={setIsProcessing}
+    />
+
+    <ResetBookOrWordsButton
+        isEnglishFirstPosition={isEnglishFirstPosition}
     />
 
     <DarkModeToggleButton />
