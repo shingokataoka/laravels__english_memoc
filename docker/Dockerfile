@@ -6,6 +6,20 @@ RUN apt-get update && \
 	apt-get install -y git unzip libzip-dev libicu-dev libonig-dev nodejs npm libfreetype6-dev libjpeg62-turbo-dev libpng-dev supervisor && \
     docker-php-ext-install intl pdo_mysql zip bcmath gd
 
+# redus-serverをインストールする
+RUN apt-get install -y redis-server
+# peclコマンドに必要なのをインストールする
+RUN apt-get install -y gcc make autoconf libc-dev pkg-config
+# peclコマンドでPhpRedisPHP拡張機能をインストールする
+RUN pecl install redis
+
+# supervisorの設定ファイルと
+# supervisord起動を追記したCMD用シェルファイルを
+# コンテナにコピー。
+COPY /etc/supervisor/conf.d /etc/supervisor/conf.d
+# ENTRYPOINTで実行できるように、shファイルに実行権限を与える。
+RUN chmod +x /etc/supervisor/conf.d/cmd.sh
+
 COPY ./docker/php.ini /usr/local/etc/php/php.ini
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -38,3 +52,6 @@ RUN echo "alias ..='cd ..'"  >> ~/.bashrc && \
   echo "alias gp='git pull'"  >> ~/.bashrc
 
 WORKDIR /app/english_memoc
+
+# supervisordを起動して、元のイメージのENTRYPOINTを実行するシェルファイルを実行。
+ENTRYPOINT ["/bin/bash", "/etc/supervisor/conf.d/cmd.sh"]

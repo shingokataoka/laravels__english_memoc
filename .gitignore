@@ -30,3 +30,5 @@ yarn-error.log
 !/app/public/build/assets/.gitkeep
 var/log/
 !var/log/.gitkeep
+
+/app/dump.rdb
